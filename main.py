@@ -75,8 +75,10 @@ def main():
                 sleep(0.1)
 
     except KeyboardInterrupt:
-        print "OK bye."
+        pass
 
+    finally:
+        print "OK bye."
 
 if __name__ == "__main__":
     main()
