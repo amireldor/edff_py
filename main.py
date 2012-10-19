@@ -1,27 +1,32 @@
 #!/usr/bin/env python
 
 from time import sleep
-
+from random import randint
 import pygame
 
 from core.model import Model
+from core.scene import Scene
 from interesting.scenes import MainMenu, Game
 
-class Music(Model):
+class Music(Scene):
     
     def __init__(self):
-        Model.__init__(self)
+        pass
 
     def update(self, dt):
-        print 'papam!'
+        self.track = randint(1, 10)
+
+    def render(self, screen):
+        print 'papam!', self.track
 
 def main():
 
     pygame.init()
     screen = pygame.display.set_mode((640, 480))
+    screen.fill( (0, 0, 255) )
 
     root = []
-    root += [ Music(), MainMenu() ]
+    root += [ Music(), Game() ]
 
     try:
         run = True
@@ -48,7 +53,7 @@ def main():
                 # make a copy of `root` because I feel bad mutating a list while iterating upon it
                 new_root = root
 
-                # iterate on `root`
+                # iterate on `root` and update
                 for x in root:
                     ret = x.update(1)
 
@@ -62,7 +67,12 @@ def main():
 
                 root = new_root
 
-                sleep(1)
+                # iterate on `root` and render
+                for x in root:
+                    x.render(screen)
+
+                pygame.display.update()
+                sleep(0.1)
 
     except KeyboardInterrupt:
         print "OK bye."

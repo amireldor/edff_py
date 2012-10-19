@@ -1,11 +1,17 @@
 from core.model import Model
+from core.view import View
 
-class Scene(Model):
+class Scene():
+    """A scene holds references to objects which are "in the game" playing with you now."""
 
     def __init__(self):
-        Model.__init__(self)
         self.models = []
+        self.views = []
 
     def update(self, dt):
         for x in self.models:
-            x.update()
+            x.update(dt)
+
+    def render(self, screen):
+        for x in self.views:
+            x.render(screen)
