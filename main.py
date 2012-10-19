@@ -14,10 +14,8 @@ class Music(Model):
         print 'papam!'
 
 def main():
-    current_scene = MainMenu()
-
     root = []
-    root += [ Music(), current_scene ]
+    root += [ Music(), MainMenu() ]
 
     try:
         while True:

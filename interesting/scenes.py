@@ -8,9 +8,6 @@ class MainMenu(Scene):
 
     def update(self, dt):
         Scene.update(self, dt)
-        print "Choose", range(1, 4)
-
-        return [Model.REMOVE, Game()]
 
 
 class Game(Scene):
@@ -20,4 +17,3 @@ class Game(Scene):
 
     def update(self, dt):
         Scene.update(self, dt)
-        print "Lousy Man"
