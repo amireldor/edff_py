@@ -2,13 +2,8 @@
 
 from time import sleep
 
-class Model(object):
-
-    REMOVE = 1
-
-    def update(self, dt):
-        pass
-
+from core.model import Model
+from interesting.scenes import MainMenu, Game
 
 class Music(Model):
     
@@ -17,40 +12,6 @@ class Music(Model):
 
     def update(self, dt):
         print 'papam!'
-
-
-class Scene(Model):
-
-    def __init__(self):
-        Model.__init__(self)
-        self.models = []
-
-    def update(self, dt):
-        for x in self.models:
-            x.update()
-
-
-class MainMenu(Scene):
-
-    def __init__(self):
-        Scene.__init__(self)
-
-    def update(self, dt):
-        Scene.update(self, dt)
-        print "Choose", range(1, 4)
-
-        return [Model.REMOVE, Game()]
-
-
-class Game(Scene):
-
-    def __init__(self):
-        Scene.__init__(self)
-
-    def update(self, dt):
-        Scene.update(self, dt)
-        print "Lousy Man"
-
 
 def main():
     current_scene = MainMenu()
