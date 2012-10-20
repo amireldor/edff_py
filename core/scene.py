@@ -14,5 +14,4 @@ class Scene():
 
     def render(self, screen):
         for view in self.views:
-            for actor in view.actors:
-                view.render(screen, actor)
+            view.render_all(screen)
