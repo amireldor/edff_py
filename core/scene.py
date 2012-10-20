@@ -13,5 +13,6 @@ class Scene():
             x.update(dt)
 
     def render(self, screen):
-        for x in self.views:
-            x.render(screen)
+        for view in self.views:
+            for actor in view.actors:
+                view.render(screen, actor)

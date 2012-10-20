@@ -19,8 +19,11 @@ class Game(Scene):
         Scene.__init__(self)
 
         matos = Matos()
-        self.models += [ matos ]
-        self.views += [ ViewMatos(matos) ]
+        view_matos = ViewMatos()
+        view_matos.actors.append(matos)
+
+        self.models.append(matos)
+        self.views.append(view_matos)
 
     def update(self, dt):
         Scene.update(self, dt)

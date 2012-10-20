@@ -4,9 +4,8 @@ from core.view import View
 
 class ViewMatos(View):
 
-    def __init__(self, matos):
+    def __init__(self):
         View.__init__(self)
-        self.matos = matos
 
-    def render(self, screen):
-        pygame.draw.rect(screen, (255, 0, 0), (self.matos.x - 15, self.matos.y - 15, 30, 30), 1)
+    def render(self, screen, matos):
+        pygame.draw.rect(screen, (255, 0, 0), (matos.x - 15, matos.y - 15, 30, 30), 1)

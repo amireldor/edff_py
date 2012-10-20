@@ -1,7 +1,7 @@
 class View(object):
 
     def __init__(self):
-        pass
+        self.actors = []
 
-    def render(self, screen):
+    def render(self, screen, actor):
         pass
