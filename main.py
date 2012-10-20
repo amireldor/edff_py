@@ -24,7 +24,7 @@ def main():
 
     pygame.init()
     screen = pygame.display.set_mode((conf.win_width, conf.win_height))
-    screen.fill( (0, 0, 255) )
+    screen.fill( conf.clear_color )
 
     root = []
     root += [ Music(), Game() ]
@@ -59,7 +59,7 @@ def main():
                     ret = x.update(1)
 
                     # do entity want to die?
-                    if ret and ret[0] == Model.REMOVE:
+                    if ret and ret[0] == Scene.REMOVE:
                         new_root.remove(x)
 
                         # if entity left something interesting, add it
@@ -69,10 +69,11 @@ def main():
                 root = new_root
 
                 # iterate on `root` and render
+                screen.fill( conf.clear_color )
                 for x in root:
                     x.render(screen)
 
-                pygame.display.update()
+                pygame.display.flip()
                 sleep(0.1)
 
     except KeyboardInterrupt:
