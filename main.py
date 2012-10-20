@@ -7,6 +7,7 @@ import pygame
 from core.model import Model
 from core.scene import Scene
 from interesting.scenes import MainMenu, Game
+import conf
 
 class Music(Scene):
     
@@ -22,7 +23,7 @@ class Music(Scene):
 def main():
 
     pygame.init()
-    screen = pygame.display.set_mode((640, 480))
+    screen = pygame.display.set_mode((conf.win_width, conf.win_height))
     screen.fill( (0, 0, 255) )
 
     root = []
