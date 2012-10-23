@@ -4,8 +4,6 @@ from core.view import View
 class Scene():
     """A scene holds references to objects which are "in the game" playing with you now."""
 
-    REMOVE = 1
-
     def __init__(self):
         self.models = []
         self.views = []
