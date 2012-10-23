@@ -14,4 +14,4 @@ class Matos(Actor):
         if (self.age < 20): # stam demonstration
             self.age += 1
         else:
-            self.status = self.REMOVE
+            self.remove_me()

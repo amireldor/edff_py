@@ -17,7 +17,7 @@ class Scene():
         # remove obsolete models
         new_models = self.models
         for model in self.models:
-            if model.status == model.REMOVE:
+            if model.should_remove():
                 new_models.remove(model)
         self.models = new_models
 
