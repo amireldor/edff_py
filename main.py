@@ -4,21 +4,9 @@ from time import sleep
 from random import randint
 import pygame
 
-from core.model import Model
-from core.scene import Scene
-from interesting.scenes import MainMenu, Game
 import conf
-
-class Music(Scene):
-    
-    def __init__(self):
-        pass
-
-    def update(self, dt):
-        self.track = randint(1, 10)
-
-    def render(self, screen):
-        print 'papam!', self.track
+import core
+import interesting
 
 def main():
 
@@ -26,8 +14,25 @@ def main():
     screen = pygame.display.set_mode((conf.win_width, conf.win_height))
     screen.fill( conf.clear_color )
 
-    root = []
-    root += [ Music(), Game() ]
+    scene = interesting.Game()
+
+    # Stuff to show in the scene
+    # - adding views
+    enemy_view = interesting.EnemyView()
+    matos_view = interesting.MatosView()
+    scene.views.append(matos_view)
+    scene.views.append(enemy_view)
+
+    # - creating matos
+    matos = interesting.Matos()
+    scene.models.append(matos)
+    matos_view.models.append(matos)
+
+    # - enemies
+    for x in xrange(5):
+        enemy = interesting.Enemy(matos)
+        scene.models.append(enemy)
+        enemy_view.models.append(enemy)
 
     try:
         run = True
@@ -50,28 +55,14 @@ def main():
                             run = False
 
 
+            # update stuff
+            scene.update(0.1) # TODO: 0.1 is temp for `dt`
+
             if run:
-                # make a copy of `root` because I feel bad mutating a list while iterating upon it
-                new_root = root
-
-                # iterate on `root` and update
-                for x in root:
-                    ret = x.update(1)
-
-                    # do entity want to die?
-                    if ret and ret[0] == Scene.REMOVE:
-                        new_root.remove(x)
-
-                        # if entity left something interesting, add it
-                        if ret[1]:
-                            new_root.append(ret[1])
-
-                root = new_root
-
-                # iterate on `root` and render
                 screen.fill( conf.clear_color )
-                for x in root:
-                    x.render(screen)
+
+                # draw stuff
+                scene.render(screen)
 
                 pygame.display.flip()
                 sleep(0.1)
