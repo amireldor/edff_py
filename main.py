@@ -14,6 +14,7 @@ def main():
     screen = pygame.display.set_mode((conf.win_width, conf.win_height))
     screen.fill( conf.clear_color )
 
+    # FIXME: Move this controller inside the scene or something
     menu_keyboard_controller = interesting.MenuKeyboardController()
     scene = interesting.MainMenu()
     menu_keyboard_controller.associate_with(scene.models)
