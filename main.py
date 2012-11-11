@@ -14,25 +14,10 @@ def main():
     screen = pygame.display.set_mode((conf.win_width, conf.win_height))
     screen.fill( conf.clear_color )
 
-    scene = interesting.Game()
-
-    # Stuff to show in the scene
-    # - adding views
-    enemy_view = interesting.EnemyView()
-    matos_view = interesting.MatosView()
-    scene.views.append(matos_view)
-    scene.views.append(enemy_view)
-
-    # - creating matos
-    matos = interesting.Matos()
-    scene.models.append(matos)
-    matos_view.models.append(matos)
-
-    # - enemies
-    for x in xrange(5):
-        enemy = interesting.Enemy(matos)
-        scene.models.append(enemy)
-        enemy_view.models.append(enemy)
+    menu_keyboard_controller = interesting.MenuKeyboardController()
+    scene = interesting.MainMenu()
+    menu_keyboard_controller.associate_with(scene.models)
+    #scene = interesting.Game()
 
     try:
         run = True
@@ -53,6 +38,8 @@ def main():
                     elif e.type == pygame.KEYDOWN:
                         if e.key == pygame.K_ESCAPE:
                             run = False
+                        else:
+                            menu_keyboard_controller.control(e.key)
 
 
             # update stuff

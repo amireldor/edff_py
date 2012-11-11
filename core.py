@@ -12,6 +12,9 @@ class Model(object):
         pass
 
 class View(object):
+    def __init__(self):
+        self.models = []
+
     def render(self, screen):
         pass
 
