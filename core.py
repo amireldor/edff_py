@@ -51,8 +51,19 @@ class Controller(object):
 
         self.controller[:] = [ c for c in self.controllers if c.should_keep() ]
 
-class KeyboardController(Controller):
-    pass
+class ConcreteController(object):
+    def __init__(self, scene):
+        self.scene = scene
+
+    def control(self):
+        pass
+
+class KeyboardController(ConcreteController):
+    def __init__(self, scene):
+        ConcreteController.__init__(self, scene)
+
+    def control(self, key):
+        pass
 
 #class MouseController(object):
 #    pass

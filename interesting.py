@@ -49,20 +49,19 @@ class MenuItemView(core.View):
 
             y += 16
 
-class MenuKeyboardController(object): # TODO: inherit from a currently-non-existing core.Controller?
-    def __init__(self):
-        self.menu_models = None
+class MenuKeyboardController(core.ConcreteController):
+    def __init__(self, scene):
+        core.ConcreteController.__init__(self, scene)
 
-    def associate_with(self, menu_models):
-        self.menu_models = menu_models
+        self.scene = scene
+        self.menu_models = self.scene.models
 
-    def control(self, controller_input):
-
+    def control(self, key):
         # handle up/down arrows
-        if controller_input in (pygame.K_DOWN, pygame.K_UP):
+        if key in (pygame.K_DOWN, pygame.K_UP):
 
             # `offset_index` is how much to move towards the next menu item
-            if (controller_input == pygame.K_UP):
+            if (key == pygame.K_UP):
                 direction = 'up'
                 offset_index = -1
             else:
@@ -86,6 +85,31 @@ class MenuKeyboardController(object): # TODO: inherit from a currently-non-exist
                     self.menu_models[next_index].selected = True
                     break
 
+        elif key == pygame.K_RETURN:
+            # TODO: send a message to start game? I don't have messages yet
+            print 'return key'
+            pass
+
+
+class GameKeyboardController(core.ConcreteController):
+    step_size = 25
+
+    def __init__(self, scene):
+        core.ConcreteController.__init__(self, scene)
+        self.scene = scene
+
+    def control(self, key):
+        self.matos = self.scene.matos
+        # handle up/down arrows
+        if key == pygame.K_LEFT:
+            self.matos.x -= self.step_size
+        elif key == pygame.K_RIGHT:
+            self.matos.x += self.step_size
+        elif key == pygame.K_UP:
+            self.matos.y -= self.step_size
+        elif key == pygame.K_DOWN:
+            self.matos.y += self.step_size
+
 class Game(core.Scene):
     def __init__(self):
         core.Scene.__init__(self)
@@ -98,13 +122,13 @@ class Game(core.Scene):
         self.views.append(enemy_view)
 
         # - creating matos
-        matos = interesting.Matos()
-        self.models.append(matos)
-        matos_view.models.append(matos)
+        self.matos = interesting.Matos()
+        self.models.append(self.matos)
+        matos_view.models.append(self.matos)
 
         # - enemies
         for x in xrange(5):
-            enemy = interesting.Enemy(matos)
+            enemy = interesting.Enemy(self.matos)
             self.models.append(enemy)
             enemy_view.models.append(enemy)
 
@@ -118,8 +142,7 @@ class Matos(core.Model):
         self.radius = conf.matos.radius
 
     def update(self, dt):
-        self.x += randint(-25, 25)
-        self.y += randint(-25, 25)
+        pass
 
 class MatosView(core.View):
     def __init__(self):

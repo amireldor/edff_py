@@ -15,10 +15,8 @@ def main():
     screen.fill( conf.clear_color )
 
     # FIXME: Move this controller inside the scene or something
-    menu_keyboard_controller = interesting.MenuKeyboardController()
     scene = interesting.MainMenu()
-    menu_keyboard_controller.associate_with(scene.models)
-    #scene = interesting.Game()
+    keyboard_controller = interesting.MenuKeyboardController(scene)
 
     try:
         run = True
@@ -40,8 +38,7 @@ def main():
                         if e.key == pygame.K_ESCAPE:
                             run = False
                         else:
-                            menu_keyboard_controller.control(e.key)
-
+                            keyboard_controller.control(e.key)
 
             # update stuff
             scene.update(0.1) # TODO: 0.1 is temp for `dt`
