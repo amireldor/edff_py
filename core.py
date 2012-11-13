@@ -45,19 +45,13 @@ class Controller(object):
     def __init__(self):
         self.controllers = []
 
-    def control():
-        pass
+    def control(self):
+        for controller in self.controllers:
+            controller.control()
 
-class KeyboardController(object):
-    pass
+        self.controller[:] = [ c for c in self.controllers if c.should_keep() ]
 
-#class MouseController(object):
-#    pass
-
-    def control():
-        pass
-
-class KeyboardController(object):
+class KeyboardController(Controller):
     pass
 
 #class MouseController(object):
