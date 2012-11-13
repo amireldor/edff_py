@@ -18,9 +18,6 @@ class View(object):
     def render(self, screen):
         pass
 
-class ViewError(Exception):
-    pass
-
 class Scene(object):
     def __init__(self):
         self.models = []
