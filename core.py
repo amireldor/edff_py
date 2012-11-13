@@ -1,24 +1,30 @@
-class Model(object):
+class Removable(object):
     def __init__(self):
         self.keep = True
 
-    def die(self):
+    def dont_keep(self):
         self.keep = False
 
-    def should_remove(self):
-        return not self.keep
+    def should_keep(self):
+        return self.keep
+
+
+class Model(Removable):
+    def __init__(self):
+        Removable.__init__(self)
 
     def update(self, dt):
         pass
 
-class View(object):
+class View(Removable):
     def __init__(self):
+        Removable.__init__(self)
         self.models = []
 
     def render(self, screen):
         pass
 
-class Scene(object):
+class Scene(object): # TODO: Maybe Scene()s should be Removable too
     def __init__(self):
         self.models = []
         self.views = []
@@ -27,9 +33,10 @@ class Scene(object):
         for model in self.models:
             model.update(dt)
 
-        self.models[:] = [ m for m in self.models if not m.should_remove() ]
+        self.models[:] = [ m for m in self.models if m.should_keep() ]
 
     def render(self, screen):
         for view in self.views:
             view.render(screen)
-            # FIXME: how to remove an unneeded view?
+
+        self.views[:] = [ v for v in self.views if v.should_keep() ]

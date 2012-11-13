@@ -127,7 +127,7 @@ class MatosView(core.View):
 
     def render(self, screen):
         """Render self.model that someone has set for me."""
-        self.models[:] = [ m for m in self.models if not m.should_remove() ]
+        self.models[:] = [ m for m in self.models if m.should_keep() ]
 
         for model in self.models:
             pygame.draw.circle(screen, (255, 0, 0), (model.x, model.y), model.radius)
@@ -147,7 +147,7 @@ class Enemy(core.Model):
     def update(self, dt):
         dist_square = (self.x - self.hero_matos.x)**2 + (self.y - self.hero_matos.y)**2
         if dist_square < (self.radius + self.hero_matos.radius)**2:
-            self.die()
+            self.dont_keep()
 
         else:
             self.x += randint(-5, 5)
@@ -160,7 +160,7 @@ class EnemyView(core.View):
 
     def render(self, screen):
         """Render self.model that someone has set for me."""
-        self.models[:] = [ m for m in self.models if not m.should_remove() ]
+        self.models[:] = [ m for m in self.models if m.should_keep() ]
 
         for model in self.models:
             pygame.draw.circle(screen, (0, 255, 127), (model.x, model.y), model.radius)
