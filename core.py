@@ -40,3 +40,16 @@ class Scene(object): # TODO: Maybe Scene()s should be Removable too
             view.render(screen)
 
         self.views[:] = [ v for v in self.views if v.should_keep() ]
+
+class Controller(object):
+    def __init__(self):
+        self.controllers = []
+
+    def control():
+        pass
+
+class KeyboardController(object):
+    pass
+
+#class MouseController(object):
+#    pass
