@@ -53,3 +53,12 @@ class KeyboardController(object):
 
 #class MouseController(object):
 #    pass
+
+    def control():
+        pass
+
+class KeyboardController(object):
+    pass
+
+#class MouseController(object):
+#    pass
