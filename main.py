@@ -18,7 +18,6 @@ def main():
     manager = core.SceneManager()
     scene = interesting.MainMenu(manager)
 #    scene = interesting.Game(manager)
-    keyboard_controller = interesting.MenuKeyboardController(scene) # FIXME: Move this controller inside the scene or something
     manager.append(scene)
 
     try:
@@ -40,13 +39,13 @@ def main():
                     elif e.type == pygame.KEYDOWN:
                         if e.key == pygame.K_ESCAPE:
                             run = False
-                        else:
-                            keyboard_controller.control(e.key)
 
-            # update stuff
-            manager.update(0.1) # TODO: 0.1 is temp for `dt`
+                    manager.on_event(e)
 
             if run:
+                # update stuff
+                manager.update(0.1) # TODO: 0.1 is temp for `dt`
+
                 screen.fill( conf.clear_color )
 
                 # draw stuff

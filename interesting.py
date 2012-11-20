@@ -16,47 +16,21 @@ class MainMenu(core.Scene):
             MenuItem("exit")
         ]
         self.models[0].selected = True
+        self.menu_models = self.models # ref to the menu items, maybe later we'll have more models on this scene
 
         item_view = MenuItemView()
         item_view.models += self.models
 
         self.views.append(item_view)
 
-class MenuItem(core.Model):
-    def __init__(self, title):
-        core.Model.__init__(self)
-        self.title = title
-        self.selected = False
+    def on_event(self, event):
+        core.Scene.on_event(self, event)
 
-class MenuItemView(core.View):
-    def __init__(self):
-        core.View.__init__(self)
-        self.font = pygame.font.Font(pygame.font.get_default_font(), 16)
-        self.color = (0, 127, 255)
-        self.selected_color = (255, 127, 255)
+        if event.type is not pygame.KEYDOWN:
+            return
 
-    def render(self, screen):
-        y = 20
-        for m in self.models:
+        key = event.key
 
-            if m.selected:
-                color = self.selected_color
-            else:
-                color = self.color
-
-            text = self.font.render(m.title, True, color)
-            screen.blit(text, (100, y))
-
-            y += 16
-
-class MenuKeyboardController(core.ConcreteController):
-    def __init__(self, scene):
-        core.ConcreteController.__init__(self, scene)
-
-        self.scene = scene
-        self.menu_models = self.scene.models
-
-    def control(self, key):
         # handle up/down arrows
         if key in (pygame.K_DOWN, pygame.K_UP):
 
@@ -86,10 +60,36 @@ class MenuKeyboardController(core.ConcreteController):
                     break
 
         elif key == pygame.K_RETURN:
-            # TODO: send a message to start game? I don't have messages yet
-            print 'return key'
-            pass
+            self.scene_manager.append(Game(self.scene_manager))
+            self.scene_manager.next()
 
+
+class MenuItem(core.Model):
+    def __init__(self, title):
+        core.Model.__init__(self)
+        self.title = title
+        self.selected = False
+
+class MenuItemView(core.View):
+    def __init__(self):
+        core.View.__init__(self)
+        self.font = pygame.font.Font(pygame.font.get_default_font(), 16)
+        self.color = (0, 127, 255)
+        self.selected_color = (255, 127, 255)
+
+    def render(self, screen):
+        y = 20
+        for m in self.models:
+
+            if m.selected:
+                color = self.selected_color
+            else:
+                color = self.color
+
+            text = self.font.render(m.title, True, color)
+            screen.blit(text, (100, y))
+
+            y += 16
 
 class GameKeyboardController(core.ConcreteController):
     step_size = 25

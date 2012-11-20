@@ -30,6 +30,9 @@ class Scene(object): # TODO: Maybe Scene()s should be Removable too
         self.views = []
         self.scene_manager = scene_manager
 
+    def on_event(self, event):
+        pass
+
     def update(self, dt):
         for model in self.models:
             model.update(dt)
@@ -49,8 +52,11 @@ class SceneManager(object):
     def append(self, scene):
         self.scenes.append(scene)
 
-    def pop(self):
+    def next(self):
         self.scenes.pop(0) # pop first item
+
+    def on_event(self, event):
+        self.scenes[0].on_event(event)
 
     def update(self, dt):
         self.scenes[0].update(dt)
