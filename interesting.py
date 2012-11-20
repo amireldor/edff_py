@@ -91,24 +91,24 @@ class MenuItemView(core.View):
 
             y += 16
 
-class GameKeyboardController(core.ConcreteController):
-    step_size = 25
-
-    def __init__(self, scene):
-        core.ConcreteController.__init__(self, scene)
-        self.scene = scene
-
-    def control(self, key):
-        self.matos = self.scene.matos
-        # handle up/down arrows
-        if key == pygame.K_LEFT:
-            self.matos.x -= self.step_size
-        elif key == pygame.K_RIGHT:
-            self.matos.x += self.step_size
-        elif key == pygame.K_UP:
-            self.matos.y -= self.step_size
-        elif key == pygame.K_DOWN:
-            self.matos.y += self.step_size
+#class GameKeyboardController(core.ConcreteController):
+#    step_size = 25
+#
+#    def __init__(self, scene):
+#        core.ConcreteController.__init__(self, scene)
+#        self.scene = scene
+#
+#    def control(self, key):
+#        self.matos = self.scene.matos
+#        # handle up/down arrows
+#        if key == pygame.K_LEFT:
+#            self.matos.x -= self.step_size
+#        elif key == pygame.K_RIGHT:
+#            self.matos.x += self.step_size
+#        elif key == pygame.K_UP:
+#            self.matos.y -= self.step_size
+#        elif key == pygame.K_DOWN:
+#            self.matos.y += self.step_size
 
 class Game(core.Scene):
     def __init__(self, manager):

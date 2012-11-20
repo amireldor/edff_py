@@ -64,29 +64,29 @@ class SceneManager(object):
     def render(self, screen):
         self.scenes[0].render(screen)
 
-class Controller(object):
-    def __init__(self):
-        self.controllers = []
-
-    def control(self):
-        for controller in self.controllers:
-            controller.control()
-
-        self.controller[:] = [ c for c in self.controllers if c.should_keep() ]
-
-class ConcreteController(object):
-    def __init__(self, scene):
-        self.scene = scene
-
-    def control(self):
-        pass
-
-class KeyboardController(ConcreteController):
-    def __init__(self, scene):
-        ConcreteController.__init__(self, scene)
-
-    def control(self, key):
-        pass
-
+#class Controller(object):
+#    def __init__(self):
+#        self.controllers = []
+#
+#    def control(self):
+#        for controller in self.controllers:
+#            controller.control()
+#
+#        self.controller[:] = [ c for c in self.controllers if c.should_keep() ]
+#
+#class ConcreteController(object):
+#    def __init__(self, scene):
+#        self.scene = scene
+#
+#    def control(self):
+#        pass
+#
+#class KeyboardController(ConcreteController):
+#    def __init__(self, scene):
+#        ConcreteController.__init__(self, scene)
+#
+#    def control(self, key):
+#        pass
+#
 #class MouseController(object):
 #    pass
