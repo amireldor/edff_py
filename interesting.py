@@ -91,26 +91,11 @@ class MenuItemView(core.View):
 
             y += 16
 
-#class GameKeyboardController(core.ConcreteController):
-#    step_size = 25
-#
-#    def __init__(self, scene):
-#        core.ConcreteController.__init__(self, scene)
-#        self.scene = scene
-#
-#    def control(self, key):
-#        self.matos = self.scene.matos
-#        # handle up/down arrows
-#        if key == pygame.K_LEFT:
-#            self.matos.x -= self.step_size
-#        elif key == pygame.K_RIGHT:
-#            self.matos.x += self.step_size
-#        elif key == pygame.K_UP:
-#            self.matos.y -= self.step_size
-#        elif key == pygame.K_DOWN:
-#            self.matos.y += self.step_size
-
 class Game(core.Scene):
+
+    HERO_STEP_SIZE = 25
+    ENEMY_STEP_SIZE = 5
+
     def __init__(self, manager):
         core.Scene.__init__(self, manager)
 
@@ -131,6 +116,22 @@ class Game(core.Scene):
             enemy = interesting.Enemy(self.matos)
             self.models.append(enemy)
             enemy_view.models.append(enemy)
+
+    def on_event(self, event):
+        if event.type is not pygame.KEYDOWN:
+            return
+
+        key = event.key
+
+        # handle up/down arrows
+        if key == pygame.K_LEFT:
+            self.matos.x -= self.HERO_STEP_SIZE
+        elif key == pygame.K_RIGHT:
+            self.matos.x += self.HERO_STEP_SIZE
+        elif key == pygame.K_UP:
+            self.matos.y -= self.HERO_STEP_SIZE
+        elif key == pygame.K_DOWN:
+            self.matos.y += self.HERO_STEP_SIZE
 
 
 class Matos(core.Model):
