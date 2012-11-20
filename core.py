@@ -25,9 +25,10 @@ class View(Removable):
         pass
 
 class Scene(object): # TODO: Maybe Scene()s should be Removable too
-    def __init__(self):
+    def __init__(self, scene_manager):
         self.models = []
         self.views = []
+        self.scene_manager = scene_manager
 
     def update(self, dt):
         for model in self.models:
@@ -40,6 +41,22 @@ class Scene(object): # TODO: Maybe Scene()s should be Removable too
             view.render(screen)
 
         self.views[:] = [ v for v in self.views if v.should_keep() ]
+
+class SceneManager(object):
+    def __init__(self):
+        self.scenes = []
+
+    def append(self, scene):
+        self.scenes.append(scene)
+
+    def pop(self):
+        self.scenes.pop(0) # pop first item
+
+    def update(self, dt):
+        self.scenes[0].update(dt)
+
+    def render(self, screen):
+        self.scenes[0].render(screen)
 
 class Controller(object):
     def __init__(self):

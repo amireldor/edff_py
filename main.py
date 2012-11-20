@@ -14,9 +14,12 @@ def main():
     screen = pygame.display.set_mode((conf.win_width, conf.win_height))
     screen.fill( conf.clear_color )
 
-    # FIXME: Move this controller inside the scene or something
-    scene = interesting.MainMenu()
-    keyboard_controller = interesting.MenuKeyboardController(scene)
+    # start game engine related stuff (yeah right)
+    manager = core.SceneManager()
+    scene = interesting.MainMenu(manager)
+#    scene = interesting.Game(manager)
+    keyboard_controller = interesting.MenuKeyboardController(scene) # FIXME: Move this controller inside the scene or something
+    manager.append(scene)
 
     try:
         run = True
@@ -41,13 +44,13 @@ def main():
                             keyboard_controller.control(e.key)
 
             # update stuff
-            scene.update(0.1) # TODO: 0.1 is temp for `dt`
+            manager.update(0.1) # TODO: 0.1 is temp for `dt`
 
             if run:
                 screen.fill( conf.clear_color )
 
                 # draw stuff
-                scene.render(screen)
+                manager.render(screen)
 
                 pygame.display.flip()
                 sleep(0.1)

@@ -6,8 +6,8 @@ import core
 import interesting
 
 class MainMenu(core.Scene):
-    def __init__(self):
-        core.Scene.__init__(self)
+    def __init__(self, manager):
+        core.Scene.__init__(self, manager)
 
         self.models = [
             MenuItem("start"),
@@ -111,8 +111,8 @@ class GameKeyboardController(core.ConcreteController):
             self.matos.y += self.step_size
 
 class Game(core.Scene):
-    def __init__(self):
-        core.Scene.__init__(self)
+    def __init__(self, manager):
+        core.Scene.__init__(self, manager)
 
         # Stuff to show in the scene
         # - adding views
