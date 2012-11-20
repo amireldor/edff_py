@@ -93,8 +93,8 @@ class MenuItemView(core.View):
 
 class Game(core.Scene):
 
-    HERO_STEP_SIZE = 25
-    ENEMY_STEP_SIZE = 5
+    HERO_STEP = 25
+    ENEMY_STEP= 5
 
     def __init__(self, manager):
         core.Scene.__init__(self, manager)
@@ -112,12 +112,16 @@ class Game(core.Scene):
         matos_view.models.append(self.matos)
 
         # - enemies
+        self.enemies = []
         for x in xrange(5):
             enemy = interesting.Enemy(self.matos)
+            self.enemies.append(enemy)
             self.models.append(enemy)
             enemy_view.models.append(enemy)
 
     def on_event(self, event):
+        core.Scene.on_event(self, event)
+
         if event.type is not pygame.KEYDOWN:
             return
 
@@ -125,14 +129,23 @@ class Game(core.Scene):
 
         # handle up/down arrows
         if key == pygame.K_LEFT:
-            self.matos.x -= self.HERO_STEP_SIZE
+            self.matos.x -= self.HERO_STEP
         elif key == pygame.K_RIGHT:
-            self.matos.x += self.HERO_STEP_SIZE
+            self.matos.x += self.HERO_STEP
         elif key == pygame.K_UP:
-            self.matos.y -= self.HERO_STEP_SIZE
+            self.matos.y -= self.HERO_STEP
         elif key == pygame.K_DOWN:
-            self.matos.y += self.HERO_STEP_SIZE
+            self.matos.y += self.HERO_STEP
 
+    def update(self, dt):
+        core.Scene.update(self, dt)
+
+        self.enemies[:] = [ e for e in self.enemies if e.should_keep() ]
+
+        # no enemies? back to main menu
+        if not len(self.enemies):
+            self.scene_manager.append(MainMenu(self.scene_manager))
+            self.scene_manager.next()
 
 class Matos(core.Model):
     def __init__(self):
@@ -174,8 +187,8 @@ class Enemy(core.Model):
             self.dont_keep()
 
         else:
-            self.x += randint(-5, 5)
-            self.y += randint(-5, 5)
+            self.x += randint(-Game.ENEMY_STEP, Game.ENEMY_STEP)
+            self.y += randint(-Game.ENEMY_STEP, Game.ENEMY_STEP)
 
 class EnemyView(core.View):
     def __init__(self):
