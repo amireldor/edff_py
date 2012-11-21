@@ -1,23 +1,19 @@
 #!/usr/bin/env python
 
 from time import sleep
-from random import randint
 import pygame
 
 import conf
 import core
-import interesting
+import scenes
 
 def main():
-
     pygame.init()
     screen = pygame.display.set_mode((conf.win_width, conf.win_height))
-    screen.fill( conf.clear_color )
 
     # start game engine related stuff (yeah right)
     manager = core.SceneManager()
-    scene = interesting.MainMenu(manager)
-#    scene = interesting.Game(manager)
+    scene = scenes.Game(manager)
     manager.append(scene)
 
     try:
@@ -44,7 +40,7 @@ def main():
 
             if run:
                 # update stuff
-                manager.update(0.1) # TODO: 0.1 is temp for `dt`
+                manager.update(0.01) # TODO: 0.1 is temp for `dt`
 
                 screen.fill( conf.clear_color )
 
@@ -52,7 +48,7 @@ def main():
                 manager.render(screen)
 
                 pygame.display.flip()
-                sleep(0.1)
+                sleep(0.01)
 
     except KeyboardInterrupt:
         pass

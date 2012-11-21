@@ -1,7 +1,10 @@
-win_width =  640
-win_height = 480
+win_width =  800
+win_height = 600
 
-class matos():
-    radius = 45
+clear_color = (120, 200, 255)
 
-clear_color = (255, 255, 240)
+images = 'images/'
+
+class monkey():
+    width = 160
+    height = 240
