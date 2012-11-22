@@ -16,9 +16,6 @@ class Monkey(core.Model):
     something like (self.y - self.height).
     """
 
-    width = 50
-    height = 200
-
     def __init__(self):
         core.Model.__init__(self)
 
