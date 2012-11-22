@@ -11,12 +11,19 @@ class Game(core.Scene):
     def __init__(self, manager):
         core.Scene.__init__(self, manager)
 
+        # setup monkey
         monkey_view = views.MonkeyView()
         self.monkey = models.Monkey()
         monkey_view.models.append(self.monkey)
 
-        self.views.append(monkey_view)
-        self.models.append(self.monkey)
+        # setup arm
+        arm_view = views.ArmView()
+        self.arm = models.Arm()
+        arm_view.models.append(self.arm)
+
+        # setup scene
+        self.views += [monkey_view, arm_view]
+        self.models += [self.monkey, self.arm]
 
     def on_event(self, event):
         core.Scene.on_event(self, event)
@@ -25,3 +32,5 @@ class Game(core.Scene):
             mouse_x, mouse_y = event.pos
 
             self.monkey.target_x = mouse_x
+            self.arm.x = mouse_x
+            self.arm.y = mouse_y
