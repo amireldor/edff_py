@@ -25,6 +25,13 @@ class Game(core.Scene):
         self.views += [monkey_view, arm_view]
         self.models += [self.monkey, self.arm]
 
+        # temp tests
+        fruit_view = views.FruitView()
+        self.fruit = [ models.Fruit(self.arm), models.Fruit(self.arm), models.Fruit(self.arm) ]
+        self.models += self.fruit
+        fruit_view.models += self.fruit
+        self.views += [fruit_view]
+
     def on_event(self, event):
         core.Scene.on_event(self, event)
 

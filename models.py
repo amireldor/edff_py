@@ -1,4 +1,4 @@
-from random import randint
+from random import random
 
 import conf
 import core
@@ -51,3 +51,18 @@ class Arm(core.Model):
     def update(self, dt):
         core.Model.update(self, dt)
         self.rotation = util.restrict_0_360(self.rotation + 360*dt)
+
+class Fruit(core.Model):
+    def __init__(self, arm):
+        core.Model.__init__(self)
+        self.arm = arm
+        self.x, self.y  = self.arm.x, self.arm.y
+        self.rotation = 360 * random()
+        self.rot_inc = -conf.fruit.rot_inc_max + (random() * conf.fruit.rot_inc_max)
+
+    def update(self, dt):
+        core.Model.update(self, dt)
+        self.rotation += self.rot_inc * dt
+        self.x, self.y  = self.arm.x, self.arm.y
+
+        # if random() < 0.01: self.dont_keep() # this is stam a check, and it passed successfully

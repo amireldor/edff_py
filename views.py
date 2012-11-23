@@ -19,6 +19,7 @@ class MonkeyView(core.View):
             self.image = image
 
     def render(self, screen):
+        core.View.render(self, screen)
         for model in self.models:
             screen.blit(self.image, (model.x - conf.monkey.width / 2, model.y - conf.monkey.height))
 
@@ -37,6 +38,7 @@ class ArmView(core.View):
             self.image = image
 
     def render(self, screen):
+        core.View.render(self, screen)
         for model in self.models:
             x, y = model.x, model.y
 
@@ -49,5 +51,32 @@ class ArmView(core.View):
             half = conf.arm.width / 2
             x += half * math.cos(math.radians(model.rotation))
             y -= half * math.sin(math.radians(model.rotation))
+
+            screen.blit(rotated_img, (x, y))
+
+class FruitView(core.View):
+    """Give me a Fruit() and I'll draw it"""
+
+    image = None
+
+    def __init__(self):
+        core.View.__init__(self)
+
+        if not self.image:
+            image = pygame.image.load(conf.images + 'fruit.png')
+            image = pygame.transform.scale(image, (conf.fruit.width, conf.fruit.height))
+
+            self.image = image
+
+    def render(self, screen):
+        core.View.render(self, screen)
+        for model in self.models:
+            x, y = model.x, model.y
+
+            rotated_img = pygame.transform.rotate(self.image, model.rotation)
+
+            rot_rect = rotated_img.get_rect().center
+            x -= rot_rect[0]
+            y -= rot_rect[1]
 
             screen.blit(rotated_img, (x, y))

@@ -21,8 +21,12 @@ class View(Removable):
         Removable.__init__(self)
         self.models = []
 
+    def remove_old(self):
+        """ Remove models which should not be kept """
+        self.models[:] = [ m for m in self.models if m.should_keep() ]
+
     def render(self, screen):
-        pass
+        self.remove_old()
 
 class Scene(object): # TODO: Maybe Scene()s should be Removable too
     def __init__(self, scene_manager):
