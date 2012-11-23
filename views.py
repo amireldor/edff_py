@@ -42,10 +42,12 @@ class ArmView(core.View):
 
             rotated_img = pygame.transform.rotate(self.image, model.rotation)
 
-            radians = math.radians(model.rotation)
-            if model.rotation < 180:
-                y -= (conf.arm.width) * math.sin(radians)
-            if model.rotation > 90 and model.rotation < 270:
-                x += (conf.arm.width) * math.cos(radians)
+            rot_rect = rotated_img.get_rect().center
+            x -= rot_rect[0]
+            y -= rot_rect[1]
 
-            screen.blit(rotated_img, (x, y - conf.arm.height/2))
+            half = conf.arm.width / 2
+            x += half * math.cos(math.radians(model.rotation))
+            y -= half * math.sin(math.radians(model.rotation))
+
+            screen.blit(rotated_img, (x, y))

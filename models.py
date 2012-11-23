@@ -46,8 +46,8 @@ class Arm(core.Model):
 
         self.x = conf.win_width
         self.y = conf.win_height * conf.arm.factor
-        self.rotation = 0
+        self.rotation = util.restrict_0_360(0)
 
     def update(self, dt):
         core.Model.update(self, dt)
-        self.rotation = util.restrict_0_360(self.rotation + 360 * dt)
+        self.rotation = util.restrict_0_360(self.rotation + 360*dt)
