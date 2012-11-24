@@ -5,6 +5,8 @@ clear_color = (120, 200, 255)
 
 images = 'images/'
 
+gravity = 1000 # something with inc_y of things
+
 class monkey():
     dimensions = (160, 240)
 
@@ -27,3 +29,6 @@ class arm():
 class fruit():
     dimensions = (60, 60)
     rot_inc_max = 360
+
+    max_inc_x = -1000
+    max_init_inc_y = -50

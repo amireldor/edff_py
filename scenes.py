@@ -18,19 +18,26 @@ class Game(core.Scene):
 
         # setup arm
         arm_view = views.ArmView(conf.images + "arm.png", conf.arm.dimensions)
-        self.arm = models.Arm()
-        self.arm.set_fruit(models.Fruit(self.arm))
+        self.arm = models.Arm(self)
         arm_view.models.append(self.arm)
 
         # setup some fruit
-        fruit_view = views.FruitView(conf.images + "fruit.png", conf.fruit.dimensions)
-        fruit = [self.arm.get_fruit()]
-        self.models += fruit
-        fruit_view.models += fruit
+        self.fruit = []
+        self.fruit_view = views.FruitView(conf.images + "fruit.png", conf.fruit.dimensions)
 
         # setup scene
-        self.views += [monkey_view, arm_view, fruit_view]
+        self.new_fruit(self.arm)
+        self.views += [monkey_view, arm_view, self.fruit_view]
         self.models += [self.monkey, self.arm]
+
+    def new_fruit(self, arm):
+        """Adds new fruit to the scene"""
+        new_fruit = models.Fruit(arm)
+        self.fruit.append(new_fruit)
+        arm.set_fruit(new_fruit)
+
+        self.models.append(new_fruit)
+        self.fruit_view.models.append(new_fruit)
 
     def on_event(self, event):
         core.Scene.on_event(self, event)

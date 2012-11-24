@@ -44,8 +44,9 @@ class Arm(core.Model):
     PREPARE = 1
     THROW = 2
 
-    def __init__(self):
+    def __init__(self, game):
         core.Model.__init__(self)
+        self.game = game
 
         self.x = conf.win_width
         self.y = conf.win_height * conf.arm.position_factor
@@ -72,9 +73,10 @@ class Arm(core.Model):
             self.rotation += (conf.arm.top_angle - self.rotation) * dt * conf.arm.throw_factor
             if abs(self.rotation - conf.arm.top_angle) <= conf.arm.rotation_error:
                 self.stage = Arm.PREPARE
+                self.game.new_fruit(self)
 
-            if self.rotation <= conf.arm.throw_angle and not self.fruit.is_flying():
-                self.fruit.fly( (-10, 0) )
+            if self.stage == Arm.THROW and self.rotation <= conf.arm.throw_angle and not self.fruit.is_flying():
+                self.fruit.fly( (random() * conf.fruit.max_inc_x, 0) )
 
 class Fruit(core.Model):
 
@@ -117,4 +119,8 @@ class Fruit(core.Model):
             x, y = util.forward( (x, y), conf.arm.fruit_tweak.ammount, self.arm.rotation + conf.arm.fruit_tweak.direction) # move a bit in the tweaking's direction
             self.x, self.y  = x, y
         elif self.stage == Fruit.FLYING:
-            pass
+            self.x += self.speed[0] * dt
+            self.y += self.speed[1] * dt
+
+            if self.x < -conf.fruit.dimensions[0]/2 or self.y > conf.win_height + conf.fruit.dimensions[1]/2:
+                self.dont_keep()
