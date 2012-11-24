@@ -63,6 +63,12 @@ class Fruit(core.Model):
     def update(self, dt):
         core.Model.update(self, dt)
         self.rotation += self.rot_inc * dt
-        self.x, self.y  = self.arm.x, self.arm.y
+
+        # put the fruit inside the arm's palm
+        x, y = self.arm.x, self.arm.y
+        x, y = util.forward( (x, y), conf.arm.dimensions[0], self.arm.rotation) # to the edge of arm
+        x, y = util.forward( (x, y), conf.arm.fruit_tweak.ammount, self.arm.rotation + conf.arm.fruit_tweak.direction) # move a bit in the tweaking's direction
+
+        self.x, self.y  = x, y
 
         # if random() < 0.01: self.dont_keep() # this is stam a check, and it passed successfully
