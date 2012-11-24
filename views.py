@@ -22,7 +22,6 @@ class MonkeyView(HasImageView):
     def render(self, screen):
         HasImageView.render(self, screen)
         for model in self.models:
-
             x, y = model.x, model.y
             rect = self.image.get_rect()
             x -= rect.center[0]
@@ -47,6 +46,7 @@ class ArmView(HasImageView):
             x -= rot_rect[0]
             y -= rot_rect[1]
 
+            # move (x, y) to the edge of the arm
             half = conf.arm.dimensions[0] / 2
             x += half * math.cos(math.radians(model.rotation))
             y -= half * math.sin(math.radians(model.rotation))
