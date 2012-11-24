@@ -20,7 +20,7 @@ class MonkeyView(HasImageView):
         HasImageView.__init__(self, filename, dimensions)
 
     def render(self, screen):
-        core.View.render(self, screen)
+        HasImageView.render(self, screen)
         for model in self.models:
             screen.blit(self.image, (model.x - conf.monkey.dimensions[0] / 2, model.y - conf.monkey.dimensions[1]))
 
@@ -31,7 +31,7 @@ class ArmView(HasImageView):
         HasImageView.__init__(self, filename, dimensions)
 
     def render(self, screen):
-        core.View.render(self, screen)
+        HasImageView.render(self, screen)
         for model in self.models:
             x, y = model.x, model.y
 
@@ -54,7 +54,7 @@ class FruitView(HasImageView):
         HasImageView.__init__(self, filename, dimensions)
 
     def render(self, screen):
-        core.View.render(self, screen)
+        HasImageView.render(self, screen)
         for model in self.models:
             x, y = model.x, model.y
 
