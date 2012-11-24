@@ -41,22 +41,37 @@ class Arm(core.Model):
     calculated as something like (self.x - self.width).
     """
 
+    PREPARE = 1
+    THROW = 2
+
     def __init__(self):
         core.Model.__init__(self)
 
         self.x = conf.win_width
-        self.y = conf.win_height * conf.arm.factor
-        self.rotation = util.restrict_0_360(0)
+        self.y = conf.win_height * conf.arm.position_factor
+        self.rotation = util.restrict_0_360(conf.arm.top_angle)
+
+        self.stage = Arm.PREPARE
 
     def update(self, dt):
         core.Model.update(self, dt)
-        self.rotation = util.restrict_0_360(self.rotation + 360*dt)
+
+        # move arm angle according to stage
+        if self.stage == Arm.PREPARE:
+            self.rotation += (conf.arm.bottom_angle - self.rotation) * dt * conf.arm.prepare_factor
+            if abs(self.rotation - conf.arm.bottom_angle) <= conf.arm.rotation_error:
+                self.stage = Arm.THROW
+        elif self.stage == Arm.THROW:
+            self.rotation += (conf.arm.top_angle - self.rotation) * dt * conf.arm.throw_factor
+            if abs(self.rotation - conf.arm.top_angle) <= conf.arm.rotation_error:
+                self.stage = Arm.PREPARE
+
 
 class Fruit(core.Model):
     def __init__(self, arm):
         core.Model.__init__(self)
         self.arm = arm
-        self.x, self.y  = self.arm.x, self.arm.y
+        self.x, self.y  = 0, 0
         self.rotation = 360 * random()
         self.rot_inc = -conf.fruit.rot_inc_max + (random() * conf.fruit.rot_inc_max)
 

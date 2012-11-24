@@ -10,7 +10,13 @@ class monkey():
 
 class arm():
     dimensions = (150, 40)
-    factor = 0.4
+    position_factor = 0.4
+
+    top_angle = 120
+    bottom_angle = 260
+    prepare_factor = 4
+    throw_factor = 10
+    rotation_error = 5
 
     # pixels to move the fruit so it fits inside the palm
     class fruit_tweak():
