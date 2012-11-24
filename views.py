@@ -22,7 +22,13 @@ class MonkeyView(HasImageView):
     def render(self, screen):
         HasImageView.render(self, screen)
         for model in self.models:
-            screen.blit(self.image, (model.x - conf.monkey.dimensions[0] / 2, model.y - conf.monkey.dimensions[1]))
+
+            x, y = model.x, model.y
+            rect = self.image.get_rect()
+            x -= rect.center[0]
+            y -= rect.height
+
+            screen.blit(self.image, (x, y))
 
 class ArmView(HasImageView):
     """Give me the Arm() and I'll draw it"""
