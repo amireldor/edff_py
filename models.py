@@ -53,6 +53,13 @@ class Arm(core.Model):
 
         self.stage = Arm.PREPARE
 
+    def set_fruit(self, fruit):
+        self.fruit = fruit
+        self.fruit.in_hand(self)
+
+    def get_fruit(self):
+        return self.fruit
+
     def update(self, dt):
         core.Model.update(self, dt)
 
@@ -66,24 +73,48 @@ class Arm(core.Model):
             if abs(self.rotation - conf.arm.top_angle) <= conf.arm.rotation_error:
                 self.stage = Arm.PREPARE
 
+            if self.rotation <= conf.arm.throw_angle and not self.fruit.is_flying():
+                self.fruit.fly( (-10, 0) )
 
 class Fruit(core.Model):
+
+    IN_HAND = 1
+    FLYING = 2
+
     def __init__(self, arm):
         core.Model.__init__(self)
-        self.arm = arm
         self.x, self.y  = 0, 0
         self.rotation = 360 * random()
-        self.rot_inc = -conf.fruit.rot_inc_max + (random() * conf.fruit.rot_inc_max)
+        self.rot_inc = -conf.fruit.rot_inc_max + (random() * conf.fruit.rot_inc_max * 2)
+
+        self.in_hand(arm)
+
+    def in_hand(self, arm):
+        """Fruit will follow arm's hand position"""
+        self.stage = Fruit.IN_HAND
+        self.arm = arm
+
+    def fly(self, speed):
+        """Fruit will fly according to `speed` which is supposed to be a tuple
+        with (inc_x, inc_y)"""
+        self.stage = Fruit.FLYING
+        self.speed = speed
+
+    def is_flying(self):
+        if self.stage == Fruit.FLYING:
+            return True
+
+        return False
 
     def update(self, dt):
         core.Model.update(self, dt)
         self.rotation += self.rot_inc * dt
 
-        # put the fruit inside the arm's palm
-        x, y = self.arm.x, self.arm.y
-        x, y = util.forward( (x, y), conf.arm.dimensions[0], self.arm.rotation) # to the edge of arm
-        x, y = util.forward( (x, y), conf.arm.fruit_tweak.ammount, self.arm.rotation + conf.arm.fruit_tweak.direction) # move a bit in the tweaking's direction
-
-        self.x, self.y  = x, y
-
-        # if random() < 0.01: self.dont_keep() # this is stam a check, and it passed successfully
+        if self.stage == Fruit.IN_HAND:
+            # put the fruit inside the arm's palm
+            x, y = self.arm.x, self.arm.y
+            x, y = util.forward( (x, y), conf.arm.dimensions[0], self.arm.rotation) # to the edge of arm
+            x, y = util.forward( (x, y), conf.arm.fruit_tweak.ammount, self.arm.rotation + conf.arm.fruit_tweak.direction) # move a bit in the tweaking's direction
+            self.x, self.y  = x, y
+        elif self.stage == Fruit.FLYING:
+            pass

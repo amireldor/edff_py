@@ -14,6 +14,7 @@ class arm():
 
     top_angle = 120
     bottom_angle = 260
+    throw_angle =  170
     prepare_factor = 4
     throw_factor = 10
     rotation_error = 5

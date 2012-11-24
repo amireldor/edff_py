@@ -19,18 +19,18 @@ class Game(core.Scene):
         # setup arm
         arm_view = views.ArmView(conf.images + "arm.png", conf.arm.dimensions)
         self.arm = models.Arm()
+        self.arm.set_fruit(models.Fruit(self.arm))
         arm_view.models.append(self.arm)
 
-        # setup scene
-        self.views += [monkey_view, arm_view]
-        self.models += [self.monkey, self.arm]
-
-        # temp tests
+        # setup some fruit
         fruit_view = views.FruitView(conf.images + "fruit.png", conf.fruit.dimensions)
-        self.fruit = [ models.Fruit(self.arm), models.Fruit(self.arm), models.Fruit(self.arm) ]
-        self.models += self.fruit
-        fruit_view.models += self.fruit
-        self.views += [fruit_view]
+        fruit = [self.arm.get_fruit()]
+        self.models += fruit
+        fruit_view.models += fruit
+
+        # setup scene
+        self.views += [monkey_view, arm_view, fruit_view]
+        self.models += [self.monkey, self.arm]
 
     def on_event(self, event):
         core.Scene.on_event(self, event)
