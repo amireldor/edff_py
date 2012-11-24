@@ -3,6 +3,7 @@ import math
 
 import conf
 import core
+import util
 
 class HasImageView(core.View):
     """Derive from me to have a nice image in you. Specify image filename and
@@ -48,8 +49,7 @@ class ArmView(HasImageView):
 
             # move (x, y) to the edge of the arm
             half = conf.arm.dimensions[0] / 2
-            x += half * math.cos(math.radians(model.rotation))
-            y -= half * math.sin(math.radians(model.rotation))
+            x, y = util.forward((x, y), half, model.rotation)
 
             screen.blit(rotated_img, (x, y))
 

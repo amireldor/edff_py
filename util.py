@@ -7,3 +7,14 @@ def restrict_0_360(angle):
     angle -= 360 * rounds
 
     return angle
+
+def forward(coords, ammount, angle):
+    """Take the coords and make them move ammount of pixels in
+    direction angle"""
+
+    x, y = coords
+
+    x += ammount * math.cos(math.radians(angle))
+    y -= ammount * math.sin(math.radians(angle))
+
+    return (x, y)
