@@ -76,7 +76,7 @@ class Arm(core.Model):
                 self.game.new_fruit(self)
 
             if self.stage == Arm.THROW and self.rotation <= conf.arm.throw_angle and not self.fruit.is_flying():
-                self.fruit.fly( (random() * conf.fruit.max_inc_x, 0) )
+                self.fruit.fly( (conf.fruit.min_inc_x + random() * (conf.fruit.max_inc_x - conf.fruit.min_inc_x), random() * conf.fruit.max_init_inc_y) )
 
 class Fruit(core.Model):
 
@@ -121,6 +121,7 @@ class Fruit(core.Model):
         elif self.stage == Fruit.FLYING:
             self.x += self.speed[0] * dt
             self.y += self.speed[1] * dt
+            self.speed = (self.speed[0], self.speed[1] + conf.gravity * dt)
 
             if self.x < -conf.fruit.dimensions[0]/2 or self.y > conf.win_height + conf.fruit.dimensions[1]/2:
                 self.dont_keep()
