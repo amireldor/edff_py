@@ -39,5 +39,3 @@ class Game(core.Scene):
             mouse_x, mouse_y = event.pos
 
             self.monkey.target_x = mouse_x
-            self.arm.x = mouse_x
-            self.arm.y = mouse_y
