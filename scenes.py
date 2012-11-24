@@ -12,12 +12,12 @@ class Game(core.Scene):
         core.Scene.__init__(self, manager)
 
         # setup monkey
-        monkey_view = views.MonkeyView()
+        monkey_view = views.MonkeyView(conf.images + "monkey.png", conf.monkey.dimensions)
         self.monkey = models.Monkey()
         monkey_view.models.append(self.monkey)
 
         # setup arm
-        arm_view = views.ArmView()
+        arm_view = views.ArmView(conf.images + "arm.png", conf.arm.dimensions)
         self.arm = models.Arm()
         arm_view.models.append(self.arm)
 
@@ -26,7 +26,7 @@ class Game(core.Scene):
         self.models += [self.monkey, self.arm]
 
         # temp tests
-        fruit_view = views.FruitView()
+        fruit_view = views.FruitView(conf.images + "fruit.png", conf.fruit.dimensions)
         self.fruit = [ models.Fruit(self.arm), models.Fruit(self.arm), models.Fruit(self.arm) ]
         self.models += self.fruit
         fruit_view.models += self.fruit

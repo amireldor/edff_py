@@ -4,38 +4,31 @@ import math
 import conf
 import core
 
-class MonkeyView(core.View):
+class HasImageView(core.View):
+    """Derive from me to have a nice image in you. Specify image filename and
+    a tuple of (width, height) to __init__"""
+
+    def __init__(self, filename, dimensions):
+        core.View.__init__(self)
+        self.image = pygame.image.load(filename)
+        self.image = pygame.transform.scale(self.image, dimensions)
+
+class MonkeyView(HasImageView):
     """Give me Monkey()s and I'll draw them"""
 
-    image = None
-
-    def __init__(self):
-        core.View.__init__(self)
-
-        if not self.image:
-            image = pygame.image.load(conf.images + 'monkey.png')
-            image = pygame.transform.scale(image, (conf.monkey.width, conf.monkey.height))
-
-            self.image = image
+    def __init__(self, filename, dimensions):
+        HasImageView.__init__(self, filename, dimensions)
 
     def render(self, screen):
         core.View.render(self, screen)
         for model in self.models:
-            screen.blit(self.image, (model.x - conf.monkey.width / 2, model.y - conf.monkey.height))
+            screen.blit(self.image, (model.x - conf.monkey.dimensions[0] / 2, model.y - conf.monkey.dimensions[1]))
 
-class ArmView(core.View):
+class ArmView(HasImageView):
     """Give me the Arm() and I'll draw it"""
 
-    image = None
-
-    def __init__(self):
-        core.View.__init__(self)
-
-        if not self.image:
-            image = pygame.image.load(conf.images + 'arm.png')
-            image = pygame.transform.scale(image, (conf.arm.width, conf.arm.height))
-
-            self.image = image
+    def __init__(self, filename, dimensions):
+        HasImageView.__init__(self, filename, dimensions)
 
     def render(self, screen):
         core.View.render(self, screen)
@@ -48,25 +41,17 @@ class ArmView(core.View):
             x -= rot_rect[0]
             y -= rot_rect[1]
 
-            half = conf.arm.width / 2
+            half = conf.arm.dimensions[0] / 2
             x += half * math.cos(math.radians(model.rotation))
             y -= half * math.sin(math.radians(model.rotation))
 
             screen.blit(rotated_img, (x, y))
 
-class FruitView(core.View):
+class FruitView(HasImageView):
     """Give me a Fruit() and I'll draw it"""
 
-    image = None
-
-    def __init__(self):
-        core.View.__init__(self)
-
-        if not self.image:
-            image = pygame.image.load(conf.images + 'fruit.png')
-            image = pygame.transform.scale(image, (conf.fruit.width, conf.fruit.height))
-
-            self.image = image
+    def __init__(self, filename, dimensions):
+        HasImageView.__init__(self, filename, dimensions)
 
     def render(self, screen):
         core.View.render(self, screen)

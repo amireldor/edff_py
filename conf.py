@@ -6,15 +6,12 @@ clear_color = (120, 200, 255)
 images = 'images/'
 
 class monkey():
-    width = 160
-    height = 240
+    dimensions = (160, 240)
 
 class arm():
-    width = 150
-    height = 40
+    dimensions = (150, 40)
     factor = 0.4
 
 class fruit():
-    width = 60
-    height = 60
+    dimensions = (60, 60)
     rot_inc_max = 360
