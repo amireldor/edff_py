@@ -11,7 +11,7 @@ class HasImageView(core.View):
     def __init__(self, filename, dimensions):
         core.View.__init__(self)
         self.image = pygame.image.load(filename)
-        self.image = pygame.transform.scale(self.image, dimensions)
+        self.image = pygame.transform.smoothscale(self.image, dimensions)
 
 class MonkeyView(HasImageView):
     """Give me Monkey()s and I'll draw them"""
