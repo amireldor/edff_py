@@ -6,13 +6,29 @@ import core
 import util
 
 class HasImageView(core.View):
-    """Derive from me to have a nice image in you. Specify image filename and
-    a tuple of (width, height) to __init__"""
+    """Derive from me to have a nice image in you.
+
+    Give me an image filename and
+    a tuple of (width, height) to __init__.
+
+    Alternatively, provide me with a list of filenames instead of a single
+    filename and I'll load them all into a nice list (all with the same size of
+    the tuple. Sorry).
+    """
 
     def __init__(self, filename, dimensions):
         core.View.__init__(self)
-        self.image = pygame.image.load(filename)
-        self.image = pygame.transform.smoothscale(self.image, dimensions)
+        # check if we got a list of filenames
+        if type(filename) == type([]):
+            # got a list, load each
+            self.image = []
+            for name in filename:
+                self.image.append(pygame.image.load(name))
+                self.image[-1] = pygame.transform.smoothscale(self.image[-1], dimensions)
+        else:
+            # got single filename, load it
+            self.image = pygame.image.load(filename)
+            self.image = pygame.transform.smoothscale(self.image, dimensions)
 
 class MonkeyView(HasImageView):
     """Give me Monkey()s and I'll draw them"""
@@ -24,11 +40,15 @@ class MonkeyView(HasImageView):
         HasImageView.render(self, screen)
         for model in self.models:
             x, y = model.x, model.y
-            rect = self.image.get_rect()
+            img_index = 0
+            if model.is_closed():
+                img_index = 1
+
+            rect = self.image[img_index].get_rect()
             x -= rect.center[0]
             y -= rect.height
 
-            screen.blit(self.image, (x, y))
+            screen.blit(self.image[img_index], (x, y))
 
 class ArmView(HasImageView):
     """Give me the Arm() and I'll draw it"""

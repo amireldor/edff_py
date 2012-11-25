@@ -12,7 +12,8 @@ class Game(core.Scene):
         core.Scene.__init__(self, manager)
 
         # setup monkey
-        monkey_view = views.MonkeyView(conf.images + "monkey.png", conf.monkey.dimensions)
+        #monkey_view = views.MonkeyView(conf.images + "monkey.png", conf.monkey.dimensions)
+        monkey_view = views.MonkeyView([conf.images + "monkey.png", conf.images + "monkey_closed.png"], conf.monkey.dimensions)
         self.monkey = models.Monkey()
         monkey_view.models.append(self.monkey)
 
@@ -41,8 +42,16 @@ class Game(core.Scene):
 
     def on_event(self, event):
         core.Scene.on_event(self, event)
+        # putting all control here is a bit ugly, I should make some
+        # sort of Controllers like I once tried in 'core' or
+        # something.
 
-        if event.type is pygame.MOUSEMOTION:
+        if event.type == pygame.MOUSEMOTION:
             mouse_x, mouse_y = event.pos
 
             self.monkey.target_x = mouse_x
+
+        elif event.type == pygame.MOUSEBUTTONDOWN:
+            self.monkey.state = self.monkey.CLOSED
+        elif event.type == pygame.MOUSEBUTTONUP:
+            self.monkey.state = self.monkey.OPENED

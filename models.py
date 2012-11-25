@@ -17,6 +17,9 @@ class Monkey(core.Model):
     something like (self.y - self.height).
     """
 
+    OPENED = 0
+    CLOSED = 1
+
     def __init__(self):
         core.Model.__init__(self)
 
@@ -24,9 +27,15 @@ class Monkey(core.Model):
         self.y = conf.win_height
         self.target_x = self.x
 
+        self.state = Monkey.OPENED
+
     def update(self, dt):
         core.Model.update(self, dt)
         self.x = self.target_x
+
+    def is_closed(self):
+        """Is my mouth closed?"""
+        return self.state == Monkey.CLOSED
 
 class Arm(core.Model):
     """The fruit-throwing hand.
