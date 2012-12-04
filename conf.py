@@ -41,5 +41,8 @@ class fruit():
     max_inc_x = -1000
     max_init_inc_y = -550
 
+    shrink = 2 # it shrinks from 1 to 0 when eaten. this parameter is the rate.
+    rot_inc_extra = 5 # when shrinking, rotate faster by this factor
+
 class collision():
     fruit_monkey = 40**2

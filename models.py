@@ -115,6 +115,8 @@ class Fruit(core.Model):
         self.in_hand(arm)
         self.monkey = monkey
 
+        self.size_factor = 1
+
     def in_hand(self, arm):
         """Fruit will follow arm's hand position"""
         self.stage = Fruit.IN_HAND
@@ -158,3 +160,10 @@ class Fruit(core.Model):
 
                 if dist <= conf.collision.fruit_monkey:
                     self.stage = Fruit.EATEN
+                    self.rot_inc *= conf.fruit.rot_inc_extra
+
+        elif self.stage == Fruit.EATEN:
+            self.size_factor -= conf.fruit.shrink * dt
+            if self.size_factor <= 0:
+                self.size_factor = 0
+                self.dont_keep()

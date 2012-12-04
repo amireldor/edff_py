@@ -84,6 +84,14 @@ class FruitView(HasImageView):
         for model in self.models:
             x, y = model.x, model.y
 
+            # image manipulations
+            to_render = self.image
+            new_size = (int(conf.fruit.dimensions[0]*model.size_factor), int(conf.fruit.dimensions[1]*model.size_factor))
+            if new_size[0] > 1 and new_size[1] > 1:
+                # bug here :(
+                to_render = pygame.transform.scale( to_render, new_size )
+            else:
+                continue
             to_render = pygame.transform.rotate(to_render, model.rotation)
 
             rot_rect = to_render.get_rect().center
