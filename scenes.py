@@ -17,12 +17,12 @@ class Game(core.Scene):
         #monkey_view = views.MonkeyView(conf.images + "monkey.png", conf.monkey.dimensions)
         monkey_view = views.MonkeyView([conf.images + "monkey.png", conf.images + "monkey_closed.png"], conf.monkey.dimensions)
         self.monkey = models.Monkey()
-        monkey_view.models.append(self.monkey)
+        monkey_view.append(self.monkey)
 
         # setup arm
         arm_view = views.ArmView(conf.images + "arm.png", conf.arm.dimensions)
         self.arm = models.Arm(self)
-        arm_view.models.append(self.arm)
+        arm_view.append(self.arm)
 
         # setup some fruit
         self.fruit = []
@@ -53,7 +53,7 @@ class Game(core.Scene):
         arm.set_fruit(new_fruit)
 
         self.models.append(new_fruit)
-        self.fruit_view.models.append(new_fruit)
+        self.fruit_view.append(new_fruit)
 
     def on_event(self, event):
         core.Scene.on_event(self, event)
