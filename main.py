@@ -43,6 +43,7 @@ def main():
                 manager.update(0.01) # TODO: 0.1 is temp for `dt`
 
                 # draw stuff
+                screen.fill(conf.clear_color)
                 manager.render(screen)
 
                 pygame.display.flip()

@@ -167,3 +167,22 @@ class Fruit(core.Model):
             if self.size_factor <= 0:
                 self.size_factor = 0
                 self.dont_keep()
+
+class Cloud(core.Model):
+    """Give me my position and my view, as I need to talk to it. I tell it when
+    should I die so it will know to pop an image from its list"""
+    def __init__(self, pos, view):
+        core.Model.__init__(self)
+
+        self.x, self.y = pos
+        self.ix = conf.cloud.max_ix
+        self.view = view
+
+    def update(self, dt):
+        core.Model.update(self, dt)
+
+        self.x += self.ix * dt
+
+        if self.x > conf.win_width:
+            self.view.pop_image() # I die, pop an image as we don't need it
+            self.dont_keep()

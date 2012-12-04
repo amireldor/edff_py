@@ -5,6 +5,8 @@ import conf
 import core
 import util
 
+import imagegenerator
+
 class HasImageView(core.View):
     """Derive from me to have a nice image in you.
 
@@ -99,3 +101,23 @@ class FruitView(HasImageView):
             y -= rot_rect[1]
 
             screen.blit(to_render, (x, y))
+
+class CloudView(core.View):
+    def __init__(self):
+        core.View.__init__(self)
+
+        self.images = [] # actual cloud images
+
+    def append(self, what):
+        self.images.append( imagegenerator.cloud() )
+        core.View.append(self, what)
+
+    def pop_image(self):
+        self.images.pop(0)
+
+    def render(self, screen):
+        core.View.render(self, screen)
+        index = 0
+        for model in self.models:
+            screen.blit( self.images[index], (model.x, model.y) )
+            index += 1

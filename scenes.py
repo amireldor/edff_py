@@ -28,23 +28,33 @@ class Game(core.Scene):
         self.fruit = []
         self.fruit_view = views.FruitView(conf.images + "fruit.png", conf.fruit.dimensions)
 
+        # setup background (clouds and such)
+        self.clouds = []
+        self.cloud_view = views.CloudView()
+
+        self.cloud_creation_x = conf.win_width
+        while self.cloud_creation_x > -conf.cloud.max_width:
+            self.cloud_creation_x -= randint( conf.cloud.delta[0], conf.cloud.delta[1] )
+            self.new_cloud( self.cloud_creation_x )
+
         # setup scene
         self.new_fruit(self.arm)
-        self.views += [monkey_view, arm_view, self.fruit_view]
+        self.views += [self.cloud_view, monkey_view, arm_view, self.fruit_view]
         self.models += [self.monkey, self.arm]
 
-        # create background image (clouds and such)
-        self.background = pygame.Surface((conf.win_width, conf.win_height))
-        self.background.fill(conf.clear_color)
+    def update(self, dt):
+        core.Scene.update(self, dt)
 
-        for x in xrange(3):
-            image = imagegenerator.cloud()
+        # this is kinda hacky, but I don't care
+        self.cloud_creation_x += conf.cloud.max_ix * dt
+        if self.cloud_creation_x >= -conf.cloud.max_width:
+            self.new_cloud()
+            self.cloud_creation_x -= randint( conf.cloud.delta[0], conf.cloud.delta[1] )
 
-            min_w, max_w = -conf.cloud.max_width/2, conf.win_width + conf.cloud.max_width/2
-            min_h, max_h = -conf.cloud.max_height/2, (conf.win_height / 2) - conf.cloud.max_height/2
-
-            self.background.blit( image, (randint(min_w, max_w), randint(min_h, max_h)) )
-
+    def new_cloud(self, x=-conf.cloud.max_width):
+            cloud = models.Cloud( (x, randint(-conf.cloud.max_height, conf.win_height/2 - conf.cloud.max_height)) , self.cloud_view )
+            self.models.append(cloud)
+            self.cloud_view.append(cloud)
 
     def new_fruit(self, arm):
         """Adds new fruit to the scene"""
@@ -68,7 +78,3 @@ class Game(core.Scene):
 
         elif event.type == pygame.MOUSEBUTTONDOWN and not self.monkey.is_closed():
             self.monkey.close_mouth()
-
-    def render(self, screen):
-        screen.blit(self.background, (0, 0))
-        core.Scene.render(self, screen)

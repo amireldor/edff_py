@@ -53,3 +53,5 @@ class cloud():
     min_circles = 2
     max_circles = 6
     min_radius = 75
+    max_ix = 20
+    delta = (100, 600) # width between clouds
