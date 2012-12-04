@@ -84,10 +84,10 @@ class FruitView(HasImageView):
         for model in self.models:
             x, y = model.x, model.y
 
-            rotated_img = pygame.transform.rotate(self.image, model.rotation)
+            to_render = pygame.transform.rotate(to_render, model.rotation)
 
-            rot_rect = rotated_img.get_rect().center
+            rot_rect = to_render.get_rect().center
             x -= rot_rect[0]
             y -= rot_rect[1]
 
-            screen.blit(rotated_img, (x, y))
+            screen.blit(to_render, (x, y))
