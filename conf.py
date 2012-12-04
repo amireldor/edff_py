@@ -46,3 +46,10 @@ class fruit():
 
 class collision():
     fruit_monkey = 40**2
+
+class cloud():
+    max_width = 300
+    max_height = 140
+    min_circles = 2
+    max_circles = 6
+    min_radius = 75

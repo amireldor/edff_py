@@ -7,6 +7,8 @@ import core
 import models
 import views
 
+import imagegenerator
+
 class Game(core.Scene):
     def __init__(self, manager):
         core.Scene.__init__(self, manager)
@@ -31,6 +33,19 @@ class Game(core.Scene):
         self.views += [monkey_view, arm_view, self.fruit_view]
         self.models += [self.monkey, self.arm]
 
+        # create background image (clouds and such)
+        self.background = pygame.Surface((conf.win_width, conf.win_height))
+        self.background.fill(conf.clear_color)
+
+        for x in xrange(3):
+            image = imagegenerator.cloud()
+
+            min_w, max_w = -conf.cloud.max_width/2, conf.win_width + conf.cloud.max_width/2
+            min_h, max_h = -conf.cloud.max_height/2, (conf.win_height / 2) - conf.cloud.max_height/2
+
+            self.background.blit( image, (randint(min_w, max_w), randint(min_h, max_h)) )
+
+
     def new_fruit(self, arm):
         """Adds new fruit to the scene"""
         new_fruit = models.Fruit(arm, self.monkey)
@@ -53,3 +68,7 @@ class Game(core.Scene):
 
         elif event.type == pygame.MOUSEBUTTONDOWN and not self.monkey.is_closed():
             self.monkey.close_mouth()
+
+    def render(self, screen):
+        screen.blit(self.background, (0, 0))
+        core.Scene.render(self, screen)

@@ -42,8 +42,6 @@ def main():
                 # update stuff
                 manager.update(0.01) # TODO: 0.1 is temp for `dt`
 
-                screen.fill( conf.clear_color )
-
                 # draw stuff
                 manager.render(screen)
 
