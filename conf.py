@@ -10,6 +10,8 @@ gravity = 2000 # something with inc_y of things
 class monkey():
     dimensions = (160, 240)
 
+    mouth_timeout = 150 # ms before mouth opens again after closed
+
     class mouth_tweak():
         ammount = 65
         direction = -65

@@ -28,14 +28,27 @@ class Monkey(core.Model):
         self.target_x = self.x
 
         self.state = Monkey.OPENED
+        self.mouth_timeout = conf.monkey.mouth_timeout
 
     def update(self, dt):
         core.Model.update(self, dt)
         self.x = self.target_x
 
+        if self.is_closed():
+            self.mouth_timeout -= 1000 * dt
+            if self.mouth_timeout <= 0:
+                self.mouth_timeout = conf.monkey.mouth_timeout
+                self.open_mouth()
+
     def is_closed(self):
         """Is my mouth closed?"""
         return self.state == Monkey.CLOSED
+
+    def close_mouth(self):
+        self.state = Monkey.CLOSED
+
+    def open_mouth(self):
+        self.state = Monkey.OPENED
 
 class Arm(core.Model):
     """The fruit-throwing hand.

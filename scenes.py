@@ -51,7 +51,5 @@ class Game(core.Scene):
 
             self.monkey.target_x = mouse_x
 
-        elif event.type == pygame.MOUSEBUTTONDOWN:
-            self.monkey.state = self.monkey.CLOSED
-        elif event.type == pygame.MOUSEBUTTONUP:
-            self.monkey.state = self.monkey.OPENED
+        elif event.type == pygame.MOUSEBUTTONDOWN and not self.monkey.is_closed():
+            self.monkey.close_mouth()
