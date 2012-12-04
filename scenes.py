@@ -33,7 +33,7 @@ class Game(core.Scene):
 
     def new_fruit(self, arm):
         """Adds new fruit to the scene"""
-        new_fruit = models.Fruit(arm)
+        new_fruit = models.Fruit(arm, self.monkey)
         self.fruit.append(new_fruit)
         arm.set_fruit(new_fruit)
 

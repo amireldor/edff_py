@@ -10,6 +10,11 @@ gravity = 2000 # something with inc_y of things
 class monkey():
     dimensions = (160, 240)
 
+    class mouth_tweak():
+        ammount = 65
+        direction = -65
+
+
 class arm():
     dimensions = (150, 40)
     position_factor = 0.4
@@ -33,3 +38,6 @@ class fruit():
     min_inc_x = -100
     max_inc_x = -1000
     max_init_inc_y = -550
+
+class collision():
+    fruit_monkey = 40**2

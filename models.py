@@ -91,14 +91,16 @@ class Fruit(core.Model):
 
     IN_HAND = 1
     FLYING = 2
+    EATEN = 3
 
-    def __init__(self, arm):
+    def __init__(self, arm, monkey):
         core.Model.__init__(self)
         self.x, self.y  = 0, 0
         self.rotation = 360 * random()
         self.rot_inc = -conf.fruit.rot_inc_max + (random() * conf.fruit.rot_inc_max * 2)
 
         self.in_hand(arm)
+        self.monkey = monkey
 
     def in_hand(self, arm):
         """Fruit will follow arm's hand position"""
@@ -132,5 +134,14 @@ class Fruit(core.Model):
             self.y += self.speed[1] * dt
             self.speed = (self.speed[0], self.speed[1] + conf.gravity * dt)
 
+            # check if out of screen
             if self.x < -conf.fruit.dimensions[0]/2 or self.y > conf.win_height + conf.fruit.dimensions[1]/2:
                 self.dont_keep()
+
+            # check if should be eaten
+            if self.monkey.state == Monkey.CLOSED:
+                x, y = util.forward( (self.monkey.x, self.monkey.y - conf.monkey.dimensions[1]), conf.monkey.mouth_tweak.ammount, conf.monkey.mouth_tweak.direction )
+                dist = (self.x - x)**2 + (self.y - y)**2
+
+                if dist <= conf.collision.fruit_monkey:
+                    self.stage = Fruit.EATEN
