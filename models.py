@@ -186,3 +186,10 @@ class Cloud(core.Model):
         if self.x > conf.win_width:
             self.view.pop_image() # I die, pop an image as we don't need it
             self.dont_keep()
+
+# TODO: might want to generalize it to a SimpleSomething and then derive tree from it
+class Tree(core.Model):
+    """A tree"""
+    def __init__(self, pos):
+        core.Model.__init__(self)
+        self.x, self.y = pos

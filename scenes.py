@@ -37,9 +37,16 @@ class Game(core.Scene):
             self.cloud_creation_x -= randint( conf.cloud.delta[0], conf.cloud.delta[1] )
             self.new_cloud( self.cloud_creation_x )
 
+        tree_view = views.TreeView(conf.images + "tree.png", conf.tree.dimensions)
+        for x in xrange(randint(1, conf.tree.max_trees)):
+            pos = (randint(-conf.tree.dimensions[0], conf.win_width), randint(conf.win_height - conf.tree.dimensions[1], conf.win_height) )
+            tree =  models.Tree(pos)
+            self.models += [ tree ]
+            tree_view.append(tree)
+
         # setup scene
         self.new_fruit(self.arm)
-        self.views += [self.cloud_view, monkey_view, arm_view, self.fruit_view]
+        self.views += [self.cloud_view, tree_view, monkey_view, arm_view, self.fruit_view]
         self.models += [self.monkey, self.arm]
 
     def update(self, dt):

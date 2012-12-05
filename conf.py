@@ -55,3 +55,7 @@ class cloud():
     min_radius = 75
     max_ix = 20
     delta = (100, 600) # width between clouds
+
+class tree():
+    dimensions = (140, 200)
+    max_trees = 3
