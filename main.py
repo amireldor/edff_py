@@ -16,6 +16,8 @@ def main():
     scene = scenes.Game(manager)
     manager.append(scene)
 
+    clock = pygame.time.Clock();
+
     try:
         run = True
 
@@ -40,14 +42,21 @@ def main():
 
             if run:
                 # update stuff
-                manager.update(0.01) # TODO: 0.1 is temp for `dt`
+                dt = clock.get_fps();
+                print dt
+                if not dt:
+                    dt = 0.001
+                else:
+                    dt = 1.0 / dt
+                manager.update(dt)
 
                 # draw stuff
                 screen.fill(conf.clear_color)
                 manager.render(screen)
 
                 pygame.display.flip()
-                sleep(0.01)
+
+            clock.tick()
 
     except KeyboardInterrupt:
         pass
