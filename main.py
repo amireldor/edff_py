@@ -43,7 +43,6 @@ def main():
             if run:
                 # update stuff
                 dt = clock.get_fps();
-                print dt
                 if not dt:
                     dt = 0.001
                 else:
