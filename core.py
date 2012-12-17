@@ -70,3 +70,39 @@ class SceneManager(object):
 
     def render(self, screen):
         self.scenes[0].render(screen)
+
+class StackableSceneManager(SceneManager):
+    """You can stack up another SceneManager on top of me, and if it's a
+    Stackable one then the possibilities are endless"""
+    def __init__(self):
+        SceneManager.__init__(self)
+        self.extra = None
+
+    def set_extra(self, extra):
+        self.extra = extra
+
+    def next(self):
+        """Will move to next scene while destroying current extra"""
+        self.kill_extra()
+        self.scenes.pop(0) # pop first item
+
+    def has_extra(self):
+        return self.extra != None
+
+    def kill_extra(self):
+        self.extra = None
+
+    def on_event(self, event):
+        self.scenes[0].on_event(event)
+        if self.has_extra():
+            self.extra.on_event(event)
+
+    def update(self, dt):
+        self.scenes[0].update(dt)
+        if self.has_extra():
+            self.extra.update(dt)
+
+    def render(self, screen):
+        self.scenes[0].render(screen)
+        if self.has_extra():
+            self.extra.render(screen)

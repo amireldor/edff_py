@@ -12,7 +12,7 @@ def main():
     screen = pygame.display.set_mode((conf.win_width, conf.win_height))
 
     # start game engine related stuff (yeah right)
-    manager = core.SceneManager()
+    manager = core.StackableSceneManager()
     scene = scenes.Game(manager)
     manager.append(scene)
 

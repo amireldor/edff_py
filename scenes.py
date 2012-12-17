@@ -50,6 +50,9 @@ class Game(core.Scene):
         self.models += [self.monkey, self.arm]
 
     def update(self, dt):
+        if self.scene_manager.has_extra():
+            return
+
         core.Scene.update(self, dt)
 
         # this is kinda hacky, but I don't care
@@ -85,3 +88,25 @@ class Game(core.Scene):
 
         elif event.type == pygame.MOUSEBUTTONDOWN and not self.monkey.is_closed():
             self.monkey.close_mouth()
+
+        elif event.type == pygame.KEYDOWN:
+            self.scene_manager.set_extra(PauseScene(self.scene_manager))
+
+class PauseScene(core.Scene):
+    def __init__(self, manager):
+        core.Scene.__init__(self, manager)
+        self.font = pygame.font.SysFont(pygame.font.get_default_font(), 50)
+        self.message = self.font.render("hello hit SPACEBAR to return", False, (0, 128, 255))
+
+    def render(self, screen):
+        rect = screen.get_rect()
+        rect.x = 20
+        rect.y = 20
+        rect.width -= 40
+        rect.height -= 40
+        screen.fill( (255, 128, 0), rect )
+        screen.blit( self.message, (40, 40) )
+
+    def on_event(self, event):
+        if event.type == pygame.KEYDOWN and event.key == pygame.K_SPACE:
+            self.scene_manager.kill_extra()
