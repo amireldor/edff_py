@@ -14,7 +14,6 @@ class Game(core.Scene):
         core.Scene.__init__(self, manager)
 
         # setup monkey
-        #monkey_view = views.MonkeyView(conf.images + "monkey.png", conf.monkey.dimensions)
         monkey_view = views.MonkeyView([conf.images + "monkey.png", conf.images + "monkey_closed.png"], conf.monkey.dimensions)
         self.monkey = models.Monkey()
         monkey_view.append(self.monkey)
@@ -49,8 +48,13 @@ class Game(core.Scene):
         self.views += [self.cloud_view, tree_view, monkey_view, arm_view, self.fruit_view]
         self.models += [self.monkey, self.arm]
 
+        self.paused = False
+
+    def pause(self, state=True):
+        self.paused = state
+
     def update(self, dt):
-        if self.scene_manager.has_extra():
+        if self.paused:
             return
 
         core.Scene.update(self, dt)
@@ -90,9 +94,10 @@ class Game(core.Scene):
             self.monkey.close_mouth()
 
         elif event.type == pygame.KEYDOWN:
-            self.scene_manager.set_extra(PauseScene(self.scene_manager))
+            #self.scene_manager.set_extra(PauseScene(self.scene_manager))
+            pass
 
-class PauseScene(core.Scene):
+class Pause(core.Scene):
     def __init__(self, manager):
         core.Scene.__init__(self, manager)
         self.font = pygame.font.SysFont(pygame.font.get_default_font(), 50)
@@ -109,4 +114,25 @@ class PauseScene(core.Scene):
 
     def on_event(self, event):
         if event.type == pygame.KEYDOWN and event.key == pygame.K_SPACE:
-            self.scene_manager.kill_extra()
+            #self.scene_manager.kill_extra()
+            pass
+
+class Blue(core.Scene):
+    def __init__(self, manager):
+        core.Scene.__init__(self, manager)
+        self.font = pygame.font.SysFont(pygame.font.get_default_font(), 50)
+        self.message = self.font.render("hello hit RETURN to return", False, (255, 128, 255))
+
+    def render(self, screen):
+        rect = screen.get_rect()
+        rect.x = 40
+        rect.y = 40
+        rect.width -= 80
+        rect.height -= 80
+        screen.fill( (0, 0, 255), rect )
+        screen.blit( self.message, (60, 60) )
+
+    def on_event(self, event):
+        if event.type == pygame.KEYDOWN and event.key == pygame.K_RETURN:
+            #self.scene_manager.kill_extra()
+            pass

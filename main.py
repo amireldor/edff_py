@@ -12,11 +12,14 @@ def main():
     screen = pygame.display.set_mode((conf.win_width, conf.win_height))
 
     # start game engine related stuff (yeah right)
-    manager = core.StackableSceneManager()
-    scene = scenes.Game(manager)
-    manager.append(scene)
+    manager = core.SceneManager()
+    game = scenes.Game(manager)
+    pause = scenes.Pause(manager)
+    manager.append(game)
+    manager.append(pause)
 
     clock = pygame.time.Clock();
+    game.pause(True)
 
     try:
         run = True

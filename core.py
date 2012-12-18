@@ -36,6 +36,10 @@ class Scene(object): # TODO: Maybe Scene()s should be Removable too
         self.models = []
         self.views = []
         self.scene_manager = scene_manager
+        self.active = True
+
+    def activate(self, state=True):
+        self.active = state
 
     def on_event(self, event):
         pass
@@ -59,50 +63,26 @@ class SceneManager(object):
     def append(self, scene):
         self.scenes.append(scene)
 
-    def next(self):
-        self.scenes.pop(0) # pop first item
+#    def next(self):
+#        self.scenes.pop(0) # pop first item
 
     def on_event(self, event):
-        self.scenes[0].on_event(event)
+        for s in self.scenes:
+            if not s.active:
+                continue
+
+            s.on_event(event)
 
     def update(self, dt):
-        self.scenes[0].update(dt)
+        for s in self.scenes:
+            if not s.active:
+                continue
+
+            s.update(dt)
 
     def render(self, screen):
-        self.scenes[0].render(screen)
+        for s in self.scenes:
+            if not s.active:
+                continue
 
-class StackableSceneManager(SceneManager):
-    """You can stack up another SceneManager on top of me, and if it's a
-    Stackable one then the possibilities are endless"""
-    def __init__(self):
-        SceneManager.__init__(self)
-        self.extra = None
-
-    def set_extra(self, extra):
-        self.extra = extra
-
-    def next(self):
-        """Will move to next scene while destroying current extra"""
-        self.kill_extra()
-        self.scenes.pop(0) # pop first item
-
-    def has_extra(self):
-        return self.extra != None
-
-    def kill_extra(self):
-        self.extra = None
-
-    def on_event(self, event):
-        self.scenes[0].on_event(event)
-        if self.has_extra():
-            self.extra.on_event(event)
-
-    def update(self, dt):
-        self.scenes[0].update(dt)
-        if self.has_extra():
-            self.extra.update(dt)
-
-    def render(self, screen):
-        self.scenes[0].render(screen)
-        if self.has_extra():
-            self.extra.render(screen)
+            s.render(screen)
