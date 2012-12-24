@@ -90,7 +90,7 @@ class Game(core.Scene):
 
             self.monkey.target_x = mouse_x
 
-        elif event.type == pygame.MOUSEBUTTONDOWN and not self.monkey.is_closed():
+        elif event.type == pygame.MOUSEBUTTONDOWN and not self.monkey.is_closed() and not self.paused:
             self.monkey.close_mouth()
 
         elif event.type == pygame.KEYDOWN:
