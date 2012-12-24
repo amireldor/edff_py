@@ -108,7 +108,6 @@ class Fruit(core.Model):
 
     def __init__(self, arm, monkey):
         core.Model.__init__(self)
-        self.x, self.y  = 0, 0
         self.rotation = 360 * random()
         self.rot_inc = -conf.fruit.rot_inc_max + (random() * conf.fruit.rot_inc_max * 2)
 
@@ -121,6 +120,7 @@ class Fruit(core.Model):
         """Fruit will follow arm's hand position"""
         self.stage = Fruit.IN_HAND
         self.arm = arm
+        self.move_to_hand()
 
     def fly(self, speed):
         """Fruit will fly according to `speed` which is supposed to be a tuple
@@ -134,16 +134,20 @@ class Fruit(core.Model):
 
         return False
 
+    def move_to_hand(self):
+        """put the fruit inside the arm's palm"""
+        x, y = self.arm.x, self.arm.y
+        x, y = util.forward( (x, y), conf.arm.dimensions[0], self.arm.rotation) # to the edge of arm
+        x, y = util.forward( (x, y), conf.arm.fruit_tweak.ammount, self.arm.rotation + conf.arm.fruit_tweak.direction) # move a bit in the tweaking's direction
+        self.x, self.y  = x, y
+
     def update(self, dt):
         core.Model.update(self, dt)
         self.rotation += self.rot_inc * dt
 
         if self.stage == Fruit.IN_HAND:
-            # put the fruit inside the arm's palm
-            x, y = self.arm.x, self.arm.y
-            x, y = util.forward( (x, y), conf.arm.dimensions[0], self.arm.rotation) # to the edge of arm
-            x, y = util.forward( (x, y), conf.arm.fruit_tweak.ammount, self.arm.rotation + conf.arm.fruit_tweak.direction) # move a bit in the tweaking's direction
-            self.x, self.y  = x, y
+            self.move_to_hand()
+
         elif self.stage == Fruit.FLYING:
             self.x += self.speed[0] * dt
             self.y += self.speed[1] * dt
