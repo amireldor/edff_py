@@ -49,6 +49,10 @@ class Game(core.Scene):
         self.models += [self.monkey, self.arm]
 
         self.paused = False
+        self.pause_scene = None # the 'pause' scene
+
+    def set_pause_scene(self, pause_scene):
+        self.pause_scene = pause_scene
 
     def pause(self, state=True):
         self.paused = state
@@ -94,14 +98,20 @@ class Game(core.Scene):
             self.monkey.close_mouth()
 
         elif event.type == pygame.KEYDOWN:
-            #self.scene_manager.set_extra(PauseScene(self.scene_manager))
-            pass
+            self.pause(True)
+            self.pause_scene.activate(True)
 
 class Pause(core.Scene):
     def __init__(self, manager):
+        """game is the game scene that should be (un)paused"""
         core.Scene.__init__(self, manager)
         self.font = pygame.font.SysFont(pygame.font.get_default_font(), 50)
         self.message = self.font.render("hello hit SPACEBAR to return", False, (0, 128, 255))
+        self.game = None
+
+    def set_game_scene(self, game):
+        self.game = game
+
 
     def render(self, screen):
         rect = screen.get_rect()
@@ -114,8 +124,8 @@ class Pause(core.Scene):
 
     def on_event(self, event):
         if event.type == pygame.KEYDOWN and event.key == pygame.K_SPACE:
-            #self.scene_manager.kill_extra()
-            pass
+            self.activate(False)
+            self.game.pause(False)
 
 class Blue(core.Scene):
     def __init__(self, manager):

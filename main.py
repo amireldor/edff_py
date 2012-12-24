@@ -13,8 +13,13 @@ def main():
 
     # start game engine related stuff (yeah right)
     manager = core.SceneManager()
+
     game = scenes.Game(manager)
     pause = scenes.Pause(manager)
+
+    game.set_pause_scene(pause)
+    pause.set_game_scene(game)
+
     manager.append(game)
     manager.append(pause)
 
