@@ -48,19 +48,12 @@ class Game(core.Scene):
         self.views += [self.cloud_view, tree_view, monkey_view, arm_view, self.fruit_view]
         self.models += [self.monkey, self.arm]
 
-        self.paused = False
         self.pause_scene = None # the 'pause' scene
 
     def set_pause_scene(self, pause_scene):
         self.pause_scene = pause_scene
 
-    def pause(self, state=True):
-        self.paused = state
-
     def update(self, dt):
-        if self.paused:
-            return
-
         core.Scene.update(self, dt)
 
         # this is kinda hacky, but I don't care
@@ -94,11 +87,11 @@ class Game(core.Scene):
 
             self.monkey.target_x = mouse_x
 
-        elif event.type == pygame.MOUSEBUTTONDOWN and not self.monkey.is_closed() and not self.paused:
+        elif event.type == pygame.MOUSEBUTTONDOWN and not self.monkey.is_closed() and self.is_active():
             self.monkey.close_mouth()
 
         elif event.type == pygame.KEYDOWN:
-            self.pause(True)
+            self.activate(False)
             self.pause_scene.activate(True)
 
 class Pause(core.Scene):
@@ -112,26 +105,27 @@ class Pause(core.Scene):
     def set_game_scene(self, game):
         self.game = game
 
-
     def render(self, screen):
-        rect = screen.get_rect()
-        rect.x = 20
-        rect.y = 20
-        rect.width -= 40
-        rect.height -= 40
-        screen.fill( (255, 128, 0), rect )
+        core.Scene.render(self, screen)
+
+        if not self.is_active():
+            return
+
         screen.blit( self.message, (40, 40) )
 
     def on_event(self, event):
+        core.Scene.on_event(self, event)
+
         if event.type == pygame.KEYDOWN and event.key == pygame.K_SPACE:
             self.activate(False)
-            self.game.pause(False)
+            self.game.activate(True)
 
 class Blue(core.Scene):
     def __init__(self, manager):
         core.Scene.__init__(self, manager)
         self.font = pygame.font.SysFont(pygame.font.get_default_font(), 50)
         self.message = self.font.render("hello hit RETURN to return", False, (255, 128, 255))
+
 
     def render(self, screen):
         rect = screen.get_rect()

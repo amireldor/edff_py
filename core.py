@@ -37,14 +37,28 @@ class Scene(object): # TODO: Maybe Scene()s should be Removable too
         self.views = []
         self.scene_manager = scene_manager
         self.active = True
+        self.__active_toggle = False # will toggle the active state upon next update
 
     def activate(self, state=True):
-        self.active = state
+        """Will active or deactivate the scene upon next `update()` (don't
+        forget to call my update method when you subclass me)"""
+        if (state is True and not self.is_active()) or (state is False and self.is_active()):
+            self.__active_toggle = True
+
+    def is_active(self):
+        return self.active
 
     def on_event(self, event):
         pass
 
     def update(self, dt):
+        if self.__active_toggle:
+            self.active = not self.active
+            self.__active_toggle = False
+
+        if not self.is_active():
+            return
+
         for model in self.models:
             model.update(dt)
 
@@ -68,21 +82,12 @@ class SceneManager(object):
 
     def on_event(self, event):
         for s in self.scenes:
-            if not s.active:
-                continue
-
             s.on_event(event)
 
     def update(self, dt):
         for s in self.scenes:
-            if not s.active:
-                continue
-
             s.update(dt)
 
     def render(self, screen):
         for s in self.scenes:
-            if not s.active:
-                continue
-
             s.render(screen)

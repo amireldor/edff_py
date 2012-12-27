@@ -24,7 +24,7 @@ def main():
     manager.append(pause)
 
     clock = pygame.time.Clock();
-    game.pause(True)
+    game.activate(False)
 
     try:
         run = True
