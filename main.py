@@ -21,9 +21,8 @@ def main():
     game.set_pause_scene(pause)
     pause.set_game_scene(game)
 
-    #manager.append(game)
-    #manager.append(pause)
     manager.append(intro)
+    manager.append([game, pause])
 
     clock = pygame.time.Clock();
     game.activate(False)

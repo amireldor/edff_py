@@ -1,3 +1,5 @@
+import collections
+
 class Removable(object):
     def __init__(self):
         self.keep = True
@@ -78,20 +80,35 @@ class SceneManager(object):
         self.scenes = []
 
     def append(self, scene):
+        """Append a scene to my stack of scenes! You can use `.next()` to move
+        to the next scene. Append a list/iterable of scenes and you can have
+        several scenes play around together at the same time! You don't have to
+        use a single scene at a time anymore!"""
         self.scenes.append(scene)
 
     def next(self):
-#        self.scenes.pop(0) # pop first item
-        print 'next scene stub'
+        self.scenes.pop(0) # pop first item
 
     def on_event(self, event):
-        for s in self.scenes:
-            s.on_event(event)
+        scene = self.scenes[0]
+        if isinstance(scene, collections.Iterable):
+            for s in scene:
+                s.on_event(event)
+        else:
+            scene.on_event(event)
 
     def update(self, dt):
-        for s in self.scenes:
-            s.update(dt)
+        scene = self.scenes[0]
+        if isinstance(scene, collections.Iterable):
+            for s in scene:
+                s.update(dt)
+        else:
+            scene.update(dt)
 
     def render(self, screen):
-        for s in self.scenes:
-            s.render(screen)
+        scene = self.scenes[0]
+        if isinstance(scene, collections.Iterable):
+            for s in scene:
+                s.render(screen)
+        else:
+            scene.render(screen)
