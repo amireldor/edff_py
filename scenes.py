@@ -38,7 +38,7 @@ class Game(core.Scene):
 
         tree_view = views.TreeView(conf.images + "tree.png", conf.tree.dimensions)
         for x in xrange(randint(1, conf.tree.max_trees)):
-            pos = (randint(-conf.tree.dimensions[0], conf.win_width), randint(conf.win_height - conf.tree.dimensions[1], conf.win_height) )
+            pos = (randint(-conf.tree.dimensions[0]/2, conf.win_width-conf.tree.dimensions[0]/2), randint(conf.win_height-conf.tree.dimensions[1], conf.win_height-conf.tree.dimensions[1]/2) )
             tree =  models.Tree(pos)
             self.models += [ tree ]
             tree_view.append(tree)
