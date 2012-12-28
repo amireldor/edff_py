@@ -124,17 +124,12 @@ class Intro(core.Scene):
     def __init__(self, manager):
         core.Scene.__init__(self, manager)
         self.font = pygame.font.SysFont(pygame.font.get_default_font(), 50)
-        self.message = self.font.render("This is the intro screen", False, (255, 128, 255))
+        self.image = pygame.image.load(conf.images + "baboonzoo_splash.png")
+        self.image = pygame.transform.smoothscale(self.image, (conf.win_width, conf.win_height))
 
     def render(self, screen):
-        rect = screen.get_rect()
-        rect.x = 40
-        rect.y = 40
-        rect.width -= 80
-        rect.height -= 80
-        screen.fill( (0, 0, 255), rect )
-        screen.blit( self.message, (60, 60) )
+        screen.blit( self.image, (0, 0) )
 
     def on_event(self, event):
-        if event.type == pygame.KEYDOWN:
+        if event.type == pygame.KEYDOWN or event.type == pygame.MOUSEBUTTONDOWN:
             self.get_manager().next()
