@@ -21,7 +21,7 @@ class HasImageView(core.View):
     def __init__(self, filename, dimensions):
         core.View.__init__(self)
         # check if we got a list of filenames
-        if type(filename) == type([]):
+        if isinstance(filename, type([])):
             # got a list, load each
             self.image = []
             for name in filename:
