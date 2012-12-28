@@ -32,7 +32,7 @@ class Monkey(core.Model):
 
     def update(self, dt):
         core.Model.update(self, dt)
-        self.x = self.target_x
+        self.x += ((self.target_x - self.x) / conf.monkey.move_factor) * dt
 
         if self.is_closed():
             self.mouth_timeout -= 1000 * dt

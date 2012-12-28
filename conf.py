@@ -12,6 +12,8 @@ class monkey():
 
     mouth_timeout = 150 # ms before mouth opens again after closed
 
+    move_factor = 0.1
+
     class mouth_tweak():
         ammount = 65
         direction = -65
