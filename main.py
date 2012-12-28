@@ -20,12 +20,12 @@ def main():
 
     game.set_pause_scene(pause)
     pause.set_game_scene(game)
+    pause.activate(False)
 
     manager.append(intro)
     manager.append([game, pause])
 
     clock = pygame.time.Clock();
-    game.activate(False)
 
     try:
         run = True
