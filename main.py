@@ -16,12 +16,14 @@ def main():
 
     game = scenes.Game(manager)
     pause = scenes.Pause(manager)
+    intro = scenes.Intro(manager)
 
     game.set_pause_scene(pause)
     pause.set_game_scene(game)
 
-    manager.append(game)
-    manager.append(pause)
+    #manager.append(game)
+    #manager.append(pause)
+    manager.append(intro)
 
     clock = pygame.time.Clock();
     game.activate(False)

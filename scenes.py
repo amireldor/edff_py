@@ -120,12 +120,11 @@ class Pause(core.Scene):
             self.activate(False)
             self.game.activate(True)
 
-class Blue(core.Scene):
+class Intro(core.Scene):
     def __init__(self, manager):
         core.Scene.__init__(self, manager)
         self.font = pygame.font.SysFont(pygame.font.get_default_font(), 50)
-        self.message = self.font.render("hello hit RETURN to return", False, (255, 128, 255))
-
+        self.message = self.font.render("This is the intro screen", False, (255, 128, 255))
 
     def render(self, screen):
         rect = screen.get_rect()
@@ -137,6 +136,5 @@ class Blue(core.Scene):
         screen.blit( self.message, (60, 60) )
 
     def on_event(self, event):
-        if event.type == pygame.KEYDOWN and event.key == pygame.K_RETURN:
-            #self.scene_manager.kill_extra()
-            pass
+        if event.type == pygame.KEYDOWN:
+            self.get_manager().next()

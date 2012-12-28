@@ -51,6 +51,9 @@ class Scene(object): # TODO: Maybe Scene()s should be Removable too
     def on_event(self, event):
         pass
 
+    def get_manager(self):
+        return self.scene_manager
+
     def update(self, dt):
         if self.__active_toggle:
             self.active = not self.active
@@ -77,8 +80,9 @@ class SceneManager(object):
     def append(self, scene):
         self.scenes.append(scene)
 
-#    def next(self):
+    def next(self):
 #        self.scenes.pop(0) # pop first item
+        print 'next scene stub'
 
     def on_event(self, event):
         for s in self.scenes:
