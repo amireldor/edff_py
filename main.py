@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 
 from time import sleep
+import sys
 import pygame
 
 import conf
@@ -8,6 +9,11 @@ import core
 import scenes
 
 def main():
+    if '--help' in sys.argv[1:]:
+        print 'Here are some command line arguments for you!'
+        print '\tno-splash\tSkip the splash/intro screen'
+        exit()
+
     pygame.init()
     screen = pygame.display.set_mode((conf.win_width, conf.win_height))
 
@@ -16,13 +22,14 @@ def main():
 
     game = scenes.Game(manager)
     pause = scenes.Pause(manager)
-    intro = scenes.Intro(manager)
 
     game.set_pause_scene(pause)
     pause.set_game_scene(game)
     pause.activate(False)
 
-    manager.append(intro)
+    if not 'no-splash' in sys.argv[1:]:
+        intro = scenes.Intro(manager)
+        manager.append(intro)
     manager.append([game, pause])
 
     clock = pygame.time.Clock();
