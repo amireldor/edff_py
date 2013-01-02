@@ -90,7 +90,7 @@ class FruitView(HasImageView):
             to_render = self.image
             new_size = (int(conf.fruit.dimensions[0]*model.size_factor), int(conf.fruit.dimensions[1]*model.size_factor))
             if new_size[0] > 1 and new_size[1] > 1:
-                # bug here :(
+                # FIXME: is there a bug here :(?
                 to_render = pygame.transform.scale( to_render, new_size )
             else:
                 continue
@@ -131,3 +131,25 @@ class TreeView(HasImageView):
 
         for model in self.models:
             screen.blit(self.image, (model.x, model.y))
+
+class RotoZoom(core.View):
+    def __init__(self, image):
+        core.View.__init__(self)
+        self.image = image
+
+    # TODO: check for duplicated code in arm and in fruit views
+    def render(self, screen):
+        core.View.render(self, screen)
+        for model in self.models:
+            x, y = model.x, model.y
+
+            # image manipulations
+            to_render = self.image
+            size_rect = self.image.get_rect()
+            to_render = pygame.transform.rotozoom(to_render, model.rotation, model.zoom)
+
+            rot_rect = to_render.get_rect().center
+            x -= rot_rect[0]
+            y -= rot_rect[1]
+
+            screen.blit(to_render, (x, y))

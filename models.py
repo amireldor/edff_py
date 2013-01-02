@@ -106,13 +106,17 @@ class Fruit(core.Model):
     FLYING = 2
     EATEN = 3
 
-    def __init__(self, arm, monkey):
+    def __init__(self, game_scene):
         core.Model.__init__(self)
         self.rotation = 360 * random()
         self.rot_inc = -conf.fruit.rot_inc_max + (random() * conf.fruit.rot_inc_max * 2)
 
-        self.in_hand(arm)
-        self.monkey = monkey
+        self.game_scene = game_scene
+
+        self.arm = self.game_scene.arm
+        self.in_hand(self.game_scene.arm)
+
+        self.monkey = self.game_scene.monkey
 
         self.size_factor = 1
 
@@ -155,6 +159,7 @@ class Fruit(core.Model):
 
             # check if out of screen
             if self.x < -conf.fruit.dimensions[0]/2 or self.y > conf.win_height + conf.fruit.dimensions[1]/2:
+                self.game_scene.create_yousuck()
                 self.dont_keep()
 
             # check if should be eaten
@@ -197,3 +202,41 @@ class Tree(core.Model):
     def __init__(self, pos):
         core.Model.__init__(self)
         self.x, self.y = pos
+
+class CoolZoom(core.Model):
+    """This is just a rotating thing like a text rotating+zooming in and then
+    zooming out. The view layer should take care of what image
+    it renders.
+
+    rotation_count is how many 360 CCW rotations will be done in zoom in and in zoom out
+    zoom_times is how many seconds will zoom in and out take
+    """
+
+    ZOOM_IN = 1
+    ZOOM_OUT = 2
+
+    def __init__(self, pos, rotation_count=conf.yousuck.rotation_count, zoom_times=conf.yousuck.zoom_times): # TODO: move these defaults to conf?
+        core.Model.__init__(self)
+        self.x, self.y = pos
+        self.rotation = 0
+        self.zoom = 0
+        self.rotation_count = rotation_count # full 360 rotation in counts and out counts
+        self.zoom_times = zoom_times # zoom in/out in seconds
+        self.state = CoolZoom.ZOOM_IN
+
+    def update(self, dt):
+        core.Model.update(self, dt)
+
+        if self.state == CoolZoom.ZOOM_IN:
+            self.rotation += 360 * self.rotation_count[0] * dt / self.zoom_times[0]
+            self.zoom += 1.0 / self.zoom_times[0] * dt
+            if self.zoom >= 1:
+                self.rotation = 360 * self.rotation_count[0]
+                self.zoom = 1
+                self.state = CoolZoom.ZOOM_OUT
+
+        elif self.state == CoolZoom.ZOOM_OUT:
+            self.rotation += 360 * self.rotation_count[1] * dt
+            self.zoom -= 1.0 / self.zoom_times[1] * dt
+            if self.zoom <= 0:
+                self.dont_keep()

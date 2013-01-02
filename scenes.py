@@ -43,9 +43,14 @@ class Game(core.Scene):
             self.models += [ tree ]
             tree_view.append(tree)
 
+        # rotating messages
+        yousuck_font = pygame.font.SysFont(pygame.font.get_default_font(), conf.yousuck.size) # TODO: change default font
+        self.yousuck_image = yousuck_font.render("you suck!", False, conf.yousuck.color)
+        self.yousuck_view = views.RotoZoom(self.yousuck_image)
+
         # setup scene
         self.new_fruit(self.arm)
-        self.views += [self.cloud_view, tree_view, monkey_view, arm_view, self.fruit_view]
+        self.views += [self.cloud_view, tree_view, monkey_view, arm_view, self.fruit_view, self.yousuck_view]
         self.models += [self.monkey, self.arm]
 
         self.pause_scene = None # the 'pause' scene
@@ -69,12 +74,18 @@ class Game(core.Scene):
 
     def new_fruit(self, arm):
         """Adds new fruit to the scene"""
-        new_fruit = models.Fruit(arm, self.monkey)
+        new_fruit = models.Fruit(self)
         self.fruit.append(new_fruit)
         arm.set_fruit(new_fruit)
 
         self.models.append(new_fruit)
         self.fruit_view.append(new_fruit)
+
+    def create_yousuck(self):
+        img_rect = self.yousuck_image.get_rect()
+        model = models.CoolZoom((randint(img_rect.width/2, conf.win_width - img_rect.width/2), randint(img_rect.height/2, conf.win_height - img_rect.height/2)))
+        self.yousuck_view.append(model)
+        self.models.append(model)
 
     def on_event(self, event):
         core.Scene.on_event(self, event)
@@ -97,8 +108,9 @@ class Game(core.Scene):
 class Pause(core.Scene):
     def __init__(self, manager):
         """game is the game scene that should be (un)paused"""
+        # TODO: change stuff to conf stuff
         core.Scene.__init__(self, manager)
-        self.font = pygame.font.SysFont(pygame.font.get_default_font(), 50)
+        self.font = pygame.font.SysFont(pygame.font.get_default_font(), 50) # TODO: change default font
         self.message = self.font.render("hello hit SPACEBAR to return", False, (0, 128, 255))
         self.game = None
 
