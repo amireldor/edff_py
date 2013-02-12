@@ -40,7 +40,6 @@ class MonkeyView(HasImageView):
 
     def __init__(self, filename, dimensions):
         HasImageView.__init__(self, filename, dimensions)
-        rect = self.image[0].get_rect()
 
     def render(self, screen):
         HasImageView.render(self, screen)
@@ -73,6 +72,8 @@ class ArmView(HasImageView):
         HasImageView.render(self, screen)
         for model in self.models:
             x, y = model.x, model.y
+            x = int(x * conf.factor_width)
+            y = int(y * conf.factor_height)
 
             rotated_img = pygame.transform.rotate(self.image, model.rotation)
 
@@ -99,13 +100,17 @@ class FruitView(HasImageView):
 
             # image manipulations
             to_render = self.image
-            new_size = (int(conf.fruit.dimensions[0]*model.size_factor), int(conf.fruit.dimensions[1]*model.size_factor))
+            new_size = (int(conf.fruit.dimensions[0]*model.size_factor*conf.factor_width), int(conf.fruit.dimensions[1]*model.size_factor*conf.factor_height))
             if new_size[0] > 1 and new_size[1] > 1:
                 # FIXME: is there a bug here :(?
                 to_render = pygame.transform.scale( to_render, new_size )
             else:
                 continue
             to_render = pygame.transform.rotate(to_render, model.rotation)
+
+            x, y = model.x, model.y
+            x = int(x * conf.factor_width)
+            y = int(y * conf.factor_height)
 
             rot_rect = to_render.get_rect().center
             x -= rot_rect[0]
@@ -156,6 +161,12 @@ class RotoZoom(core.View):
         core.View.__init__(self)
         self.image = image
 
+        # scale the image to fit window coordinates
+        rect = self.image.get_rect()
+        dimensions = int(rect.width * conf.factor_width), int(rect.height * conf.factor_height)
+
+        self.image = pygame.transform.smoothscale(self.image, dimensions)
+
     # TODO: check for duplicated code in arm and in fruit views
     def render(self, screen):
         core.View.render(self, screen)
@@ -166,6 +177,10 @@ class RotoZoom(core.View):
             to_render = self.image
             size_rect = self.image.get_rect()
             to_render = pygame.transform.rotozoom(to_render, model.rotation, model.zoom)
+
+            x, y = model.x, model.y
+            x = int(x * conf.factor_width)
+            y = int(y * conf.factor_height)
 
             rot_rect = to_render.get_rect().center
             x -= rot_rect[0]

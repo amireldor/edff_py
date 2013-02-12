@@ -24,7 +24,7 @@ class monkey():
     move_factor = 0.1
 
     class mouth_tweak():
-        ammount = 65
+        amount = 65
         direction = -65
 
 
@@ -41,7 +41,7 @@ class arm():
 
     # pixels to move the fruit so it fits inside the palm
     class fruit_tweak():
-        ammount = 25
+        amount = 25
         direction = -110
 
 class fruit():

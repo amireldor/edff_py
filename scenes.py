@@ -45,13 +45,12 @@ class Game(core.Scene):
 
         # rotating messages
         yousuck_font = pygame.font.SysFont(pygame.font.get_default_font(), conf.yousuck.size) # TODO: change default font
-        self.yousuck_image = yousuck_font.render("you suck!", False, conf.yousuck.color)
+        self.yousuck_image = yousuck_font.render("you suck!", True, conf.yousuck.color)
         self.yousuck_view = views.RotoZoom(self.yousuck_image)
 
         # setup scene
         self.new_fruit(self.arm)
-        #self.views += [self.cloud_view, tree_view, monkey_view, arm_view, self.fruit_view, self.yousuck_view]
-        self.views = [self.cloud_view, tree_view, monkey_view] # TODO: this is temp
+        self.views += [self.cloud_view, tree_view, monkey_view, arm_view, self.fruit_view, self.yousuck_view]
         self.models += [self.monkey, self.arm]
 
         self.pause_scene = None # the 'pause' scene
@@ -84,7 +83,7 @@ class Game(core.Scene):
 
     def create_yousuck(self):
         img_rect = self.yousuck_image.get_rect()
-        model = models.CoolZoom((randint(img_rect.width/2, conf.win_width - img_rect.width/2), randint(img_rect.height/2, conf.win_height - img_rect.height/2)))
+        model = models.CoolZoom((randint(img_rect.width/2, conf.scene_width - img_rect.width/2), randint(img_rect.height/2, conf.scene_height - img_rect.height/2)))
         self.yousuck_view.append(model)
         self.models.append(model)
 

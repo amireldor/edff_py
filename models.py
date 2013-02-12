@@ -70,8 +70,8 @@ class Arm(core.Model):
         core.Model.__init__(self)
         self.game = game
 
-        self.x = conf.win_width
-        self.y = conf.win_height * conf.arm.position_factor
+        self.x = conf.scene_width
+        self.y = conf.scene_height * conf.arm.position_factor
         self.rotation = util.restrict_0_360(conf.arm.top_angle)
 
         self.stage = Arm.PREPARE
@@ -142,7 +142,7 @@ class Fruit(core.Model):
         """put the fruit inside the arm's palm"""
         x, y = self.arm.x, self.arm.y
         x, y = util.forward( (x, y), conf.arm.dimensions[0], self.arm.rotation) # to the edge of arm
-        x, y = util.forward( (x, y), conf.arm.fruit_tweak.ammount, self.arm.rotation + conf.arm.fruit_tweak.direction) # move a bit in the tweaking's direction
+        x, y = util.forward( (x, y), conf.arm.fruit_tweak.amount, self.arm.rotation + conf.arm.fruit_tweak.direction) # move a bit in the tweaking's direction
         self.x, self.y  = x, y
 
     def update(self, dt):
@@ -158,13 +158,13 @@ class Fruit(core.Model):
             self.speed = (self.speed[0], self.speed[1] + conf.gravity * dt)
 
             # check if out of screen
-            if self.x < -conf.fruit.dimensions[0]/2 or self.y > conf.win_height + conf.fruit.dimensions[1]/2:
+            if self.x < -conf.fruit.dimensions[0]/2 or self.y > conf.scene_height + conf.fruit.dimensions[1]/2:
                 self.game_scene.create_yousuck()
                 self.dont_keep()
 
             # check if should be eaten
             if self.monkey.state == Monkey.CLOSED:
-                x, y = util.forward( (self.monkey.x, self.monkey.y - conf.monkey.dimensions[1]), conf.monkey.mouth_tweak.ammount, conf.monkey.mouth_tweak.direction )
+                x, y = util.forward( (self.monkey.x, self.monkey.y - conf.monkey.dimensions[1]), conf.monkey.mouth_tweak.amount, conf.monkey.mouth_tweak.direction )
                 dist = (self.x - x)**2 + (self.y - y)**2
 
                 if dist <= conf.collision.fruit_monkey:
