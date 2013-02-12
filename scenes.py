@@ -51,7 +51,7 @@ class Game(core.Scene):
         # setup scene
         self.new_fruit(self.arm)
         #self.views += [self.cloud_view, tree_view, monkey_view, arm_view, self.fruit_view, self.yousuck_view]
-        self.views = [self.cloud_view, monkey_view] # TODO: this is temp
+        self.views = [self.cloud_view, tree_view, monkey_view] # TODO: this is temp
         self.models += [self.monkey, self.arm]
 
         self.pause_scene = None # the 'pause' scene

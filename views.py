@@ -145,6 +145,10 @@ class TreeView(HasImageView):
         HasImageView.render(self, screen)
 
         for model in self.models:
+            x, y = model.x, model.y
+            x = int(x * conf.factor_width)
+            y = int(y * conf.factor_height)
+
             screen.blit(self.image, (model.x, model.y))
 
 class RotoZoom(core.View):
