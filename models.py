@@ -192,7 +192,7 @@ class Cloud(core.Model):
 
         self.x += self.ix * dt
 
-        if self.x > conf.win_width:
+        if self.x > conf.scene_width:
             self.view.pop_image() # I die, pop an image as we don't need it
             self.dont_keep()
 

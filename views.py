@@ -130,7 +130,11 @@ class CloudView(core.View):
         core.View.render(self, screen)
         index = 0
         for model in self.models:
-            screen.blit( self.images[index], (model.x, model.y) )
+            x, y = model.x, model.y
+            x = int(x * conf.factor_width)
+            y = int(y * conf.factor_height)
+
+            screen.blit( self.images[index], (x, y) )
             index += 1
 
 class TreeView(HasImageView):
