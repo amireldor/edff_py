@@ -1,5 +1,14 @@
-win_width =  800
+# window width/height
+win_width =  1600
 win_height = 600
+
+# scene width/height, regardless of window width/height
+scene_width = 800
+scene_height = 600
+
+# use these stuff to calculate things between window and scene easily
+factor_width = float(win_width) / float(scene_width)
+factor_height = float(win_height) / float(scene_height)
 
 clear_color = (120, 200, 255)
 

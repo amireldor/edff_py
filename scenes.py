@@ -50,7 +50,8 @@ class Game(core.Scene):
 
         # setup scene
         self.new_fruit(self.arm)
-        self.views += [self.cloud_view, tree_view, monkey_view, arm_view, self.fruit_view, self.yousuck_view]
+        #self.views += [self.cloud_view, tree_view, monkey_view, arm_view, self.fruit_view, self.yousuck_view]
+        self.views = [monkey_view] # TODO: this is temp
         self.models += [self.monkey, self.arm]
 
         self.pause_scene = None # the 'pause' scene
@@ -96,7 +97,7 @@ class Game(core.Scene):
         if event.type == pygame.MOUSEMOTION:
             mouse_x, mouse_y = event.pos
 
-            self.monkey.target_x = mouse_x
+            self.monkey.target_x = mouse_x / conf.factor_width # win coords to scene coords
 
         elif event.type == pygame.MOUSEBUTTONDOWN and not self.monkey.is_closed() and self.is_active():
             self.monkey.close_mouth()

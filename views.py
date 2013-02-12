@@ -20,6 +20,9 @@ class HasImageView(core.View):
 
     def __init__(self, filename, dimensions):
         core.View.__init__(self)
+
+        dimensions = int(dimensions[0] * conf.factor_width), int(dimensions[1] * conf.factor_height)
+
         # check if we got a list of filenames
         if isinstance(filename, type([])):
             # got a list, load each
@@ -37,6 +40,7 @@ class MonkeyView(HasImageView):
 
     def __init__(self, filename, dimensions):
         HasImageView.__init__(self, filename, dimensions)
+        rect = self.image[0].get_rect()
 
     def render(self, screen):
         HasImageView.render(self, screen)
@@ -46,7 +50,14 @@ class MonkeyView(HasImageView):
             if model.is_closed():
                 img_index = 1
 
+            # move x to 'hotpoint' which is the middle bottom of the monkey rect
             rect = self.image[img_index].get_rect()
+
+            # from scene coordinates to window coordinates
+            x = int(x * conf.factor_width)
+            y = int(y * conf.factor_height)
+
+            # from scene coordinates, bottom of scene, to window coordinates, with the hotpoint being (top, left) instead of (middle, bottom)
             x -= rect.center[0]
             y -= rect.height
 

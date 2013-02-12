@@ -23,8 +23,8 @@ class Monkey(core.Model):
     def __init__(self):
         core.Model.__init__(self)
 
-        self.x = conf.win_width / 2
-        self.y = conf.win_height
+        self.x = conf.scene_width / 2
+        self.y = conf.scene_height
         self.target_x = self.x
 
         self.state = Monkey.OPENED
