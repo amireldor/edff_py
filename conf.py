@@ -1,6 +1,6 @@
 # window width/height
-win_width =  1600
-win_height = 600
+win_width =  1000
+win_height = int(1000 * 1 / 1.3)
 
 # scene width/height, regardless of window width/height
 scene_width = 800

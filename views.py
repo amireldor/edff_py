@@ -76,6 +76,8 @@ class ArmView(HasImageView):
             y = int(y * conf.factor_height)
 
             rotated_img = pygame.transform.rotate(self.image, model.rotation)
+            dimensions = int(rotated_img.get_rect().width * conf.factor_width), int(rotated_img.get_rect().height * conf.factor_height)
+            rotated_img = pygame.transform.smoothscale(rotated_img, dimensions)
 
             rot_rect = rotated_img.get_rect().center
             x -= rot_rect[0]
@@ -96,16 +98,16 @@ class FruitView(HasImageView):
     def render(self, screen):
         HasImageView.render(self, screen)
         for model in self.models:
-            x, y = model.x, model.y
-
             # image manipulations
             to_render = self.image
+
             new_size = (int(conf.fruit.dimensions[0]*model.size_factor*conf.factor_width), int(conf.fruit.dimensions[1]*model.size_factor*conf.factor_height))
             if new_size[0] > 1 and new_size[1] > 1:
                 # FIXME: is there a bug here :(?
                 to_render = pygame.transform.scale( to_render, new_size )
             else:
                 continue
+
             to_render = pygame.transform.rotate(to_render, model.rotation)
 
             x, y = model.x, model.y
