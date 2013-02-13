@@ -126,6 +126,8 @@ class CloudView(core.View):
 
     def append(self, what):
         self.images.append( imagegenerator.cloud() )
+        dimensions = int(conf.cloud.max_width * conf.factor_width), int(conf.cloud.max_height * conf.factor_height)
+        self.images[-1] = pygame.transform.smoothscale(self.images[-1], dimensions)
         core.View.append(self, what)
 
     def pop_image(self):

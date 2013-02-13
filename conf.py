@@ -59,11 +59,11 @@ class collision():
     fruit_monkey = 40**2
 
 class cloud():
-    max_width = int(300 * factor_width)
-    max_height = int(140 * factor_height)
+    max_width = 300
+    max_height = 140
     min_circles = 2
     max_circles = 6
-    min_radius = int(75 * factor_width)
+    min_radius = 75
     max_ix = 20
     delta = (100, 600) # width between clouds
 
