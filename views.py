@@ -127,6 +127,11 @@ class CloudView(core.View):
         self.images = [] # actual cloud images
 
     def append(self, what):
+        # TODO: scaling code should be inside the image generator, because if
+        # scaled up the way it is now then we get black borders around the
+        # circles. note that it's weird because if we are to change window
+        # dimensions on runtime, stuff will not be so nice (but not too hard to
+        # fix i think)
         self.images.append( imagegenerator.cloud() )
         dimensions = int(conf.cloud.max_width * conf.factor_width), int(conf.cloud.max_height * conf.factor_height)
         self.images[-1] = pygame.transform.smoothscale(self.images[-1], dimensions)
