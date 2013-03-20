@@ -72,7 +72,8 @@ class tree():
     max_trees = 3
 
 class yousuck(): # "you suck!" CoolZoom values
-    rotation_count = (2, 0)
+    rotation_count_range = (-1, 1)
+    rotation_count_out_factor = 0.07
     zoom_times = (0.3, 0.65)
     color = (255, 90, 0)
     size = 100

@@ -215,7 +215,7 @@ class CoolZoom(core.Model):
     ZOOM_IN = 1
     ZOOM_OUT = 2
 
-    def __init__(self, pos, rotation_count=conf.yousuck.rotation_count, zoom_times=conf.yousuck.zoom_times): # TODO: move these defaults to conf?
+    def __init__(self, pos, rotation_count=(0, 0), zoom_times=conf.yousuck.zoom_times): # TODO: move these defaults to conf?
         core.Model.__init__(self)
         self.x, self.y = pos
         self.rotation = 0

@@ -1,5 +1,5 @@
 import pygame
-from random import randint
+from random import randint, random
 
 import conf
 import core
@@ -83,7 +83,13 @@ class Game(core.Scene):
 
     def create_yousuck(self):
         img_rect = self.yousuck_image.get_rect()
-        model = models.CoolZoom((randint(img_rect.width/2, conf.scene_width - img_rect.width/2), randint(img_rect.height/2, conf.scene_height - img_rect.height/2)))
+
+        count = conf.yousuck.rotation_count_range
+        count = random() * (count[1] - count[0])
+        random_rotation_count = (count, count * conf.yousuck.rotation_count_out_factor)
+
+        model = models.CoolZoom((randint(img_rect.width/2, conf.scene_width - img_rect.width/2), randint(img_rect.height/2, conf.scene_height - img_rect.height/2)), rotation_count=random_rotation_count)
+
         self.yousuck_view.append(model)
         self.models.append(model)
 
