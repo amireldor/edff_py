@@ -228,8 +228,13 @@ class CoolZoom(core.Model):
         core.Model.update(self, dt)
 
         if self.state == CoolZoom.ZOOM_IN:
-            self.rotation += 360 * self.rotation_count[0] * dt / self.zoom_times[0]
-            self.zoom += 1.0 / self.zoom_times[0] * dt
+            if self.zoom_times[0] == 0:
+                self.rotation = 1.0
+                self.zoom = 1.0
+            else:
+                self.rotation += 360 * self.rotation_count[0] * dt / self.zoom_times[0]
+                self.zoom += 1.0 / self.zoom_times[0] * dt
+
             if self.zoom >= 1:
                 self.rotation = 360 * self.rotation_count[0]
                 self.zoom = 1

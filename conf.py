@@ -1,6 +1,6 @@
 # window width/height
 win_width =  1000
-win_height = int(1000 * 1 / 1.3)
+win_height = int(win_width * 1 / 1.3)
 
 # scene width/height, regardless of window width/height
 scene_width = 800
@@ -11,6 +11,7 @@ factor_width = float(win_width) / float(scene_width)
 factor_height = float(win_height) / float(scene_height)
 
 clear_color = (120, 200, 255)
+message_size = 24
 
 images = 'images/'
 

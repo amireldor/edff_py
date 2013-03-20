@@ -48,9 +48,21 @@ class Game(core.Scene):
         self.yousuck_image = yousuck_font.render("you suck!", True, conf.yousuck.color)
         self.yousuck_view = views.RotoZoom(self.yousuck_image)
 
+        # ---> you suck message
+        msg_font = pygame.font.SysFont(pygame.font.get_default_font(), conf.message_size) # TODO: change default font
+        self.yousuck_image = yousuck_font.render("you suck!", True, conf.yousuck.color)
+
+        # ---> pause message, TODO: move hardcoded values to conf
+        pause_info = models.CoolZoom( (conf.scene_width / 2, conf.message_size), zoom_times=(0, 10), rotation_count=(0, 0.0016))
+        pause_img = msg_font.render("Hello, pressing ANY KEY will PAUSE.", True, (0, 0, 0))
+        pause_view = views.RotoZoom(pause_img)
+        pause_view.models = [pause_info]
+
+        self.models += [pause_info]
+
         # setup scene
         self.new_fruit(self.arm)
-        self.views += [self.cloud_view, tree_view, monkey_view, arm_view, self.fruit_view, self.yousuck_view]
+        self.views += [self.cloud_view, tree_view, monkey_view, arm_view, self.fruit_view, self.yousuck_view, pause_view]
         self.models += [self.monkey, self.arm]
 
         self.pause_scene = None # the 'pause' scene
@@ -117,7 +129,7 @@ class Pause(core.Scene):
         # TODO: change stuff to conf stuff
         core.Scene.__init__(self, manager)
         self.font = pygame.font.SysFont(pygame.font.get_default_font(), 50) # TODO: change default font
-        self.message = self.font.render("hello hit SPACEBAR to return", False, (0, 128, 255))
+        self.message = self.font.render("Hello, hit SPACEBAR to continue.", True, (0, 128, 255))
         self.game = None
 
     def set_game_scene(self, game):
@@ -129,7 +141,7 @@ class Pause(core.Scene):
         if not self.is_active():
             return
 
-        screen.blit( self.message, (40, 40) )
+        screen.blit( self.message, (40, 40) ) # TODO: move to conf
 
     def on_event(self, event):
         core.Scene.on_event(self, event)
