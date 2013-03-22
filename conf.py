@@ -78,3 +78,9 @@ class yousuck(): # "you suck!" CoolZoom values
     zoom_times = (0.3, 0.65)
     color = (255, 90, 0)
     size = 100
+
+class pause():
+    background_image = 'food.jpg'
+    font_family = "Tahoma"
+    font_size = int(win_width / 32)
+    font_color = (255, 0, 0)

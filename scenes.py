@@ -124,12 +124,25 @@ class Game(core.Scene):
             self.pause_scene.activate(True)
 
 class Pause(core.Scene):
+
+    background_image = None
+    font = None
+    message = None
+
     def __init__(self, manager):
         """game is the game scene that should be (un)paused"""
         # TODO: change stuff to conf stuff
         core.Scene.__init__(self, manager)
-        self.font = pygame.font.SysFont(pygame.font.get_default_font(), 50) # TODO: change default font
-        self.message = self.font.render("Hello, hit SPACEBAR to continue.", True, (0, 128, 255))
+
+        if self.font == None:
+            self.font = pygame.font.SysFont( conf.pause.font_family, conf.pause.font_size )
+        if self.message == None:
+            self.message = self.font.render( "Hello, hit SPACEBAR to continue.", True, conf.pause.font_color )
+
+        if self.background_image == None:
+            self.background_image = pygame.image.load(conf.images + conf.pause.background_image)
+            self.background_image = pygame.transform.smoothscale(self.background_image, (conf.win_width, conf.win_height) )
+
         self.game = None
 
     def set_game_scene(self, game):
@@ -141,7 +154,12 @@ class Pause(core.Scene):
         if not self.is_active():
             return
 
-        screen.blit( self.message, (40, 40) ) # TODO: move to conf
+        # background image
+        screen.blit( self.background_image, (0, 0) )
+        
+        # pause message
+        rect = self.message.get_rect()
+        screen.blit( self.message, (conf.win_width / 2 - rect.width / 2, conf.win_height / 2 - rect.height / 2) )
 
     def on_event(self, event):
         core.Scene.on_event(self, event)
