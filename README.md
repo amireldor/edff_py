@@ -25,5 +25,4 @@ This was surprisingly easy.
 
  - Create and activate a virtual env with Python 2.7
  - `pip install pygame pyinstaller`
- - `pyinstaller --windowed --oneline --icon=icon.ico run.py --name "Eat Da Fruit Fruit"
-
+ - `pyinstaller --windowed --oneline --icon=icon.ico run.py --name "Eat Da Fruit Fruit"`
