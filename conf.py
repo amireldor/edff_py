@@ -14,6 +14,7 @@ clear_color = (120, 200, 255)
 message_size = 24
 
 images = 'images/'
+fonts = 'fonts/'
 
 gravity = 2000 # something with inc_y of things
 

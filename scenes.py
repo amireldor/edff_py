@@ -44,17 +44,17 @@ class Game(core.Scene):
             tree_view.append(tree)
 
         # rotating messages
-        yousuck_font = pygame.font.SysFont(pygame.font.get_default_font(), conf.yousuck.size) # TODO: change default font
-        self.yousuck_image = yousuck_font.render("you suck!", True, conf.yousuck.color)
+        yousuck_font = pygame.font.Font(conf.fonts + "Prezident.ttf", conf.yousuck.size)
+        self.yousuck_image = yousuck_font.render("YOU SUCK!", True, conf.yousuck.color)
         self.yousuck_view = views.RotoZoom(self.yousuck_image)
 
         # ---> you suck message
-        msg_font = pygame.font.SysFont(pygame.font.get_default_font(), conf.message_size) # TODO: change default font
-        self.yousuck_image = yousuck_font.render("you suck!", True, conf.yousuck.color)
+        msg_font = pygame.font.Font(conf.fonts + "Prezident.ttf", conf.message_size)
+        # self.yousuck_image = yousuck_font.render("YOU SUCK!", True, conf.yousuck.color)
 
         # ---> pause message, TODO: move hardcoded values to conf
         pause_info = models.CoolZoom( (conf.scene_width / 2, conf.message_size), zoom_times=(0, 10), rotation_count=(0, 0.0016))
-        pause_img = msg_font.render("Hello, pressing ANY KEY will PAUSE.", True, (0, 0, 0))
+        pause_img = msg_font.render("HELLO, PRESSING ANY KEY WILL PAUSE.", True, (0, 0, 0))
         pause_view = views.RotoZoom(pause_img)
         pause_view.models = [pause_info]
 
@@ -80,9 +80,9 @@ class Game(core.Scene):
             self.cloud_creation_x -= randint( conf.cloud.delta[0], conf.cloud.delta[1] )
 
     def new_cloud(self, x=-conf.cloud.max_width):
-            cloud = models.Cloud( (x, randint(-conf.cloud.max_height, conf.win_height/2 - conf.cloud.max_height)) , self.cloud_view )
-            self.models.append(cloud)
-            self.cloud_view.append(cloud)
+        cloud = models.Cloud( (x, randint(-conf.cloud.max_height, conf.win_height/2 - conf.cloud.max_height)) , self.cloud_view )
+        self.models.append(cloud)
+        self.cloud_view.append(cloud)
 
     def new_fruit(self, arm):
         """Adds new fruit to the scene"""
@@ -135,9 +135,9 @@ class Pause(core.Scene):
         core.Scene.__init__(self, manager)
 
         if self.font == None:
-            self.font = pygame.font.SysFont( conf.pause.font_family, conf.pause.font_size )
+            self.font = pygame.font.Font(conf.fonts + "Prezident.ttf", conf.pause.font_size )
         if self.message == None:
-            self.message = self.font.render( "Hello, hit SPACEBAR to continue.", True, conf.pause.font_color )
+            self.message = self.font.render( "HELLO, HIT SPACEBAR TO CONTINUE.", True, conf.pause.font_color )
 
         if self.background_image == None:
             self.background_image = pygame.image.load(conf.images + conf.pause.background_image)
@@ -156,7 +156,7 @@ class Pause(core.Scene):
 
         # background image
         screen.blit( self.background_image, (0, 0) )
-        
+
         # pause message
         rect = self.message.get_rect()
         screen.blit( self.message, (conf.win_width / 2 - rect.width / 2, conf.win_height / 2 - rect.height / 2) )
@@ -171,7 +171,7 @@ class Pause(core.Scene):
 class Intro(core.Scene):
     def __init__(self, manager):
         core.Scene.__init__(self, manager)
-        self.font = pygame.font.SysFont(pygame.font.get_default_font(), 50)
+        self.font = pygame.font.Font(conf.fonts + "Prezident.ttf", 50)
         self.image = pygame.image.load(conf.images + "baboonzoo_splash.png")
         self.image = pygame.transform.smoothscale(self.image, (conf.win_width, conf.win_height))
 
