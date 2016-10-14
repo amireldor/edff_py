@@ -15,6 +15,10 @@ def main():
         exit()
 
     pygame.init()
+    pygame.display.set_caption('Eat Da Fruit Fruit')
+
+    icon_image = pygame.image.load(conf.images + 'monkey.png')
+    pygame.display.set_icon(icon_image)
     screen = pygame.display.set_mode((conf.win_width, conf.win_height))
 
     # start game engine related stuff (yeah right)
